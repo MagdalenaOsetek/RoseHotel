@@ -3,26 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RoseHotel.Domain.Exceptions;
+using RoseHotel.Domain.ValueObjects;
 
 namespace RoseHotel.Domain.Entities
 {
-    class Reservation
+    public class Reservation
     {
-        public Guid Id { get; private set; }
-        public Guid RoomId { get; private set; }
-        public Guid GuestId { get; private set; }
+        public Guid ReservationId { get; private set; }
+        public ICollection<Room> Rooms { get; private set; }
+        public Guest Guest { get; private set; }
         public DateTime CheckIn { get; private set; }
         public DateTime CheckOut { get; private set; }
         public DateTime CreatedAt { get; private set; }
+        public Amount ToPay { get; private set; }
+        public Amount Paid { get; private set; }
 
-        public Reservation(Guid id, Guid roomId, Guid guestId, DateTime checkIn, DateTime checkOut, DateTime createdAt)
+        public  ReservationStatus Status { get; private set; }
+
+
+        
+
+
+        public void ChangeStatus (ReservationStatus reservationStatus)
         {
-            Id = id;
-            RoomId = roomId;
-            GuestId = guestId;
-            CheckIn = checkIn;
-            CheckOut = checkOut;
-            CreatedAt = createdAt;
+            if(reservationStatus=="CHECK IN" && Status != "PAID")
+            {
+                throw new CheckInWithoutPaymentException();
+
+            }
+
+            Status = reservationStatus;
+
         }
+
+
+        public void Pay (Amount amount)
+        {
+            if(amount + Paid >ToPay)
+            {
+                throw new InvalidAmountException(amount);
+            }
+
+            Paid += amount;
+
+            if(Paid == ToPay)
+            {
+                ChangeStatus("PAID");
+            }
+        }
+
+
+
+
+
     }
 }

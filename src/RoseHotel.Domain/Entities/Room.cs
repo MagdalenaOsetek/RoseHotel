@@ -9,24 +9,27 @@ namespace RoseHotel.Domain.Entities
 {
     public class Room
     {
-        public Guid Id { get; private set; }
-        public int number { get; private set; }
-        public RoomType type { get; private set; }
-        public Price price { get; private set; }
-        public Capacity capacity { get; private set; }
+        public Guid RoomId { get; private set; }
+        public ICollection<Reservation> Reservations { get; private set; }
+        public int Number { get; private set; }
+        public RoomType Type { get; private set; }
+        public Price Price { get; private set; }
+        public Capacity Capacity { get; private set; }
+
+        
 
         public Room()
         {
 
         }
 
-        public Room(Guid id, int number, RoomType type, Price price, Capacity capacity)
+        public Room(Guid roomId, int number, RoomType type, Price price, Capacity capacity)
         {
-            Id = id;
-            this.number = number;
-            this.type = type;
-            this.price = price;
-            this.capacity = capacity;
+            RoomId = roomId;
+            Number = number;
+            Type = type;
+            Price = price;
+            Capacity = capacity;
         }
     }
 }

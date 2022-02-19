@@ -14,7 +14,7 @@ namespace RoseHotel.Domain.ValueObjects
         public Price(decimal value)
         {
 
-            if (value is < 0 or > 5_000)
+            if (value is < 0 or > 1_000)
             {
                 throw new InvalidPriceException(value);
             }

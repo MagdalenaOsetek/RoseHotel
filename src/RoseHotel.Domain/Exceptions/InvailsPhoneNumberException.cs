@@ -9,7 +9,7 @@ namespace RoseHotel.Domain.Exceptions
     public class InvalidPhoneNumberException : RoseHotelException
     {
         public string PhoneNumber { get; }
-        public InvalidPhoneNumberException(string value) : base($"Phone number '{value} is invalid'")
+        public InvalidPhoneNumberException(string value) : base($"Phone number '{value}' is invalid'")
         {
             PhoneNumber = value;
         }
