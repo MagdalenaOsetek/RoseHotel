@@ -13,7 +13,7 @@ namespace RoseHotel.Domain.Entities
 
 
         public Guid GuestId { get; private set; }
-        public User User { get; private set; }
+        public User? User { get; private set; }
         public ICollection<Reservation> Reservations { get; private set; }
 
         public string Name { get; private set; }
@@ -32,11 +32,20 @@ namespace RoseHotel.Domain.Entities
 
         public Guest(Guid id)
         {
-            Id = id;
+            GuestId = id;
 
         }
 
-
+        public Guest(Guid guestId, string name, string surname, string nationality, DateTime createdAt, Email email, PhoneNumber phoneNumber, Card card) : this(guestId)
+        {
+            Name = name;
+            Surname = surname;
+            Nationality = nationality;
+            CreatedAt = createdAt;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            Card = card;
+        }
 
         public static Guest Create(Guid guid) => new(guid);
 

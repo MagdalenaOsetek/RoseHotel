@@ -16,7 +16,7 @@ namespace RoseHotel.Domain.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new InvalidRoomTypeException(value);
+                throw new InvalidPhoneNumberException(value);
             }
             if (!Regex.IsMatch(value, @"\+?[\s]?[0-9]?[0-9]?[0-9]?[\s-]?[0-9][0-9][0-9][\s-]?[0-9][0-9][0-9][\s-]?[0-9][0-9][0-9]$", RegexOptions.ECMAScript))
             {

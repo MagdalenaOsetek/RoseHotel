@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoseHotel.Domain.Exceptions
 {
-    class InvaildOwnerNameException : RoseHotelException
+   public class InvaildOwnerNameException : RoseHotelException
     {
        
         public InvaildOwnerNameException() : base("Name cannot be emapty")

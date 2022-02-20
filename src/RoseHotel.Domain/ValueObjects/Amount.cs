@@ -23,6 +23,9 @@ namespace RoseHotel.Domain.ValueObjects
 
         public static implicit operator Amount(decimal value) => new(value);
         public static implicit operator decimal(Amount value) => value.Value;
+
+        public static implicit operator Amount(Price value) => new(value);
+        public static implicit operator Price(Amount value) => value.Value;
         public static Amount operator +(Amount a, Amount b) => a.Value + b.Value;
         public static Amount operator -(Amount a, Amount b) => a.Value - b.Value;
         public static Amount operator *(int a, Amount b) => a * b.Value;
@@ -31,6 +34,8 @@ namespace RoseHotel.Domain.ValueObjects
         public static bool operator >(Amount a, Amount b) => a.Value > b.Value;
         public static bool operator <=(Amount a, Amount b) => a.Value <= b.Value;
         public static bool operator >=(Amount a, Amount b) => a.Value >= b.Value;
+        public static bool operator == (Amount a, Amount b) => a.Value == b.Value;
+        public static bool operator != (Amount a, Amount b) => a.Value != b.Value;
 
 
     }

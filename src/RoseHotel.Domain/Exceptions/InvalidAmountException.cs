@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoseHotel.Domain.Exceptions
 {
-    class InvalidAmountException : RoseHotelException
+   public  class InvalidAmountException : RoseHotelException
     {
         public decimal Amount { get; }
         public InvalidAmountException(decimal value) : base($"Amount '{value}' is invalid")

@@ -17,17 +17,25 @@ namespace RoseHotel.Domain.Entities
         public DateTime CheckOut { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public Amount ToPay { get; private set; }
-        public Amount Paid { get; private set; }
+        public Amount Paid { get; private set; } = 0.0m;
 
-        public  ReservationStatus Status { get; private set; }
+        public ReservationStatus Status { get; private set; } = "UNVERIFIED";
 
+        public Reservation(Guid reservationId, ICollection<Room> rooms, Guest guest, DateTime checkIn, DateTime checkOut, DateTime createdAt, Amount toPay)
+        {
+            ReservationId = reservationId;
+            Rooms = rooms;
+            Guest = guest;
+            CheckIn = checkIn;
+            CheckOut = checkOut;
+            CreatedAt = createdAt;
+            ToPay = toPay;
 
-        
-
+        }
 
         public void ChangeStatus (ReservationStatus reservationStatus)
         {
-            if(reservationStatus=="CHECK IN" && Status != "PAID")
+            if(reservationStatus== "CHECKED IN" && Status != "PAID")
             {
                 throw new CheckInWithoutPaymentException();
 
@@ -49,7 +57,7 @@ namespace RoseHotel.Domain.Entities
 
             if(Paid == ToPay)
             {
-                ChangeStatus("PAID");
+                Status = "PAID";
             }
         }
 

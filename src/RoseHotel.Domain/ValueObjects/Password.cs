@@ -20,18 +20,13 @@ namespace RoseHotel.Domain.ValueObjects
             {
                 throw new InvalidPasswordException();
             }
-            if (value.Length is < 8 or > 22)
+
+
+            if (!Regex.IsMatch(value, @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$", RegexOptions.ECMAScript))
             {
                 throw new InvalidPasswordException();
             }
-
-            if (!Regex.IsMatch(value, @"/\d+/", RegexOptions.ECMAScript) &&
-                !Regex.IsMatch(value, @"/[a-z]/", RegexOptions.ECMAScript) &&
-                !Regex.IsMatch(value, @"/[A-Z]/", RegexOptions.ECMAScript))
-            {
-                throw new InvalidPasswordException();
-            }
-
+            Value = value;
 
         }
 

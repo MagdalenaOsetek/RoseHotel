@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoseHotel.Domain.Exceptions
 {
-    class CardExpiredException : RoseHotelException
+    public class CardExpiredException : RoseHotelException
     {
         public CardExpiredException() : base("Card has expired")
         {

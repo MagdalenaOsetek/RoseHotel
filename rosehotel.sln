@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseHotel.Domain", "RoseHotel.Domain\RoseHotel.Domain.csproj", "{77A8CC00-8342-4DE1-BE0A-5C2646FFA250}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseHotel.Domain", "src\RoseHotel.Domain\RoseHotel.Domain.csproj", "{77A8CC00-8342-4DE1-BE0A-5C2646FFA250}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoseHotel.Infrastructure", "src\RoseHotel.Infrastructure\RoseHotel.Infrastructure.csproj", "{F5A6CD98-65AF-49D4-862C-E1263E54B125}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4BBD289-8BD9-4D30-A1C3-9733EAED030B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0B083605-15E6-4D33-9EF5-E34BA4707A42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoseHotel.UnitTests", "tests\RoseHotel.UnitTests\RoseHotel.UnitTests.csproj", "{83015197-0329-4504-9BE5-EE791E93C154}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +23,22 @@ Global
 		{77A8CC00-8342-4DE1-BE0A-5C2646FFA250}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77A8CC00-8342-4DE1-BE0A-5C2646FFA250}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77A8CC00-8342-4DE1-BE0A-5C2646FFA250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5A6CD98-65AF-49D4-862C-E1263E54B125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A6CD98-65AF-49D4-862C-E1263E54B125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A6CD98-65AF-49D4-862C-E1263E54B125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A6CD98-65AF-49D4-862C-E1263E54B125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83015197-0329-4504-9BE5-EE791E93C154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83015197-0329-4504-9BE5-EE791E93C154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83015197-0329-4504-9BE5-EE791E93C154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83015197-0329-4504-9BE5-EE791E93C154}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{77A8CC00-8342-4DE1-BE0A-5C2646FFA250} = {F4BBD289-8BD9-4D30-A1C3-9733EAED030B}
+		{F5A6CD98-65AF-49D4-862C-E1263E54B125} = {F4BBD289-8BD9-4D30-A1C3-9733EAED030B}
+		{83015197-0329-4504-9BE5-EE791E93C154} = {0B083605-15E6-4D33-9EF5-E34BA4707A42}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5FDC2AE-3EC6-42D3-B6BE-6D66CBD66B2D}

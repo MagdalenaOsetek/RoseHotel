@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoseHotel.Domain.Exceptions
 {
-    class InvaildCardNumberException : RoseHotelException
+    public class InvaildCardNumberException : RoseHotelException
     {
         public string CardNumber { get; set; }
         public InvaildCardNumberException(string value) : base($"Card number '{value}' is invalid")

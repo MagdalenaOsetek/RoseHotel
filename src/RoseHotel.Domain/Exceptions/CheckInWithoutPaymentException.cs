@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoseHotel.Domain.Exceptions
 {
-    class CheckInWithoutPaymentException : RoseHotelException
+    public class CheckInWithoutPaymentException : RoseHotelException
     {
         public CheckInWithoutPaymentException() : base("Cannot check in without fully paid bill")
         {
