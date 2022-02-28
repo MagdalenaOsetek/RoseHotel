@@ -11,7 +11,7 @@ namespace RoseHotel.Domain.Entities
     public class User
     {
         public Guid UserId { get; private set; }
-        public Guest? Guest { get; private set; }
+        public Guest Guest { get; private set; }
         public Email Email { get; private set; }
         public Password Password { get; private set; }
         public Role Role { get; set; }

@@ -21,7 +21,7 @@ namespace RoseHotel.Domain.Entities
 
         public ReservationStatus Status { get; private set; } = "UNVERIFIED";
 
-        public Reservation(Guid reservationId, ICollection<Room> rooms, Guest guest, DateTime checkIn, DateTime checkOut, DateTime createdAt, Amount toPay)
+        public Reservation(Guid reservationId, ICollection<Room> rooms, Guest guest, DateTime checkIn, DateTime checkOut, DateTime createdAt)
         {
             ReservationId = reservationId;
             Rooms = rooms;
@@ -29,7 +29,7 @@ namespace RoseHotel.Domain.Entities
             CheckIn = checkIn;
             CheckOut = checkOut;
             CreatedAt = createdAt;
-            ToPay = toPay;
+            ToPay = Decimal.Multiply(rooms.Sum(x => x.Price),(decimal)(checkOut - checkIn).TotalDays);
 
         }
 

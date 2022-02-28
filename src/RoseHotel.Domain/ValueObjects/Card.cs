@@ -12,7 +12,7 @@ namespace RoseHotel.Domain.ValueObjects
     {
         public string CardNumber { get; }
         public DateTime ExpirationDate { get; }
-        public string CVV { get; }
+        public string Cvv { get; }
         public string FullName { get; }
 
 
@@ -41,14 +41,14 @@ namespace RoseHotel.Domain.ValueObjects
 
             CardNumber = cardNumber;
             ExpirationDate = expirationDate;
-            CVV = cvv;
+            Cvv = cvv;
             FullName = fullName;
         }
 
 
         public static bool operator == (Card one, Card two)
         {
-            if(one.CardNumber.Equals(two.CardNumber) && one.ExpirationDate.Equals(two.ExpirationDate) && one.CVV.Equals(two.CVV) && one.FullName.Equals(two.FullName))
+            if(one.CardNumber.Equals(two.CardNumber) && one.ExpirationDate.Equals(two.ExpirationDate) && one.Cvv.Equals(two.Cvv) && one.FullName.Equals(two.FullName))
             {
                 return true;
             }
@@ -59,7 +59,7 @@ namespace RoseHotel.Domain.ValueObjects
 
         public static bool operator !=(Card one, Card two)
         {
-            if (one.CardNumber.Equals(two.CardNumber) && one.ExpirationDate.Equals(two.ExpirationDate) && one.CVV.Equals(two.CVV) && one.FullName.Equals(two.FullName))
+            if (one.CardNumber.Equals(two.CardNumber) && one.ExpirationDate.Equals(two.ExpirationDate) && one.Cvv.Equals(two.Cvv) && one.FullName.Equals(two.FullName))
             {
                 return false;
             }

@@ -29,13 +29,4 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
         }
     }
 
-    public class UserMap : EntityTypeConfiguration<User>
-    {
-        public UserMap()
-        {
-            this.HasOptional(x => x.Guest)
-                .WithOptionalPrincipal()
-                .Map(x => x.MapKey("UserId"));
-        }
-    }
 }

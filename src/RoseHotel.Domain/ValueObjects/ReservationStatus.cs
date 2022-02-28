@@ -15,8 +15,7 @@ namespace RoseHotel.Domain.ValueObjects
             "VERIFIED",
             "PAID",
             "CHECKED IN",
-            "CHECKED OUT",
-            "CANCEL"
+            "CHECKED OUT"         
         };
 
         public string Value { get; }

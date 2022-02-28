@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using RoseHotel.Domain.Entities;
-using RoseHotel.Infrastructure.DAL.Configurations;
+using RoseHotel.Domain.Repositories;
 
 namespace RoseHotel.Infrastructure.DAL.Repositories
 {
-    class ReservationRepository : IReservationRepository
+    internal sealed class ReservationRepository : IReservationRepository
     {
         private readonly RoseHotelDbContext _context;
         private readonly DbSet<Reservation> _resrevations;
@@ -22,12 +22,13 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
             _rooms = context.Rooms;
         }
 
-        public async Task AddRservation(Reservation reservation)
+        public async Task AddAsync(Reservation reservation)
         {
             await _resrevations.AddAsync(reservation);
             await _context.SaveChangesAsync();
-
         }
+
+
 
         public async Task<IReadOnlyCollection<Reservation>> BrowserAsyncByCheckInAndCheckOutDate(DateTime checkIn, DateTime checkOut)
         {
@@ -39,39 +40,51 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
             return await _resrevations.Include(x => x.Rooms).Where(x => x.CheckIn.Equals(checkIn)).ToListAsync();
         }
 
-        public async Task<IReadOnlyCollection<Reservation>> BrowserAsyncByCheckOutDate(DateTime checkOut)
+        public  async Task<IReadOnlyCollection<Reservation>> BrowserAsyncByCheckOutDate(DateTime checkOut)
         {
-            return await _resrevations.Include(x => x.Rooms).Where(x => x.CheckOut.Equals(checkOut)).ToListAsync();
+            return await _resrevations.Include(x => x.Rooms).Where(x =>  x.CheckOut.Equals(checkOut)).ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<Reservation>> BrowserAsyncByGuestName(string name, string surname)
         {
-            return await _resrevations.Include(x => x.Rooms).Where(x => x.Guest.Name.Equals(name) && x.Guest.Surname.Equals(surname)).ToListAsync();
+            return await _resrevations.Include(x=>x.Rooms).Where(x => x.Guest.Name.Equals(name) && x.Guest.Surname.Equals(surname)).ToListAsync();
         }
 
-        public Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut, ICollection<Room> rooms)
+        public Task<IReadOnlyCollection<Reservation>> BrowserAsyncByUser(Guid GuestId)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteRservation(Reservation reservation)
+        public async Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut, ICollection<Room> rooms)
         {
-            throw new NotImplementedException();
+
+            var taken = await _resrevations.Include(x => x.Rooms).Where(x => x.CheckIn <= checkIn || x.CheckOut >= checkOut).Select(x => x.Rooms).SelectMany(x =>x).ToListAsync();
+            var room = await _rooms.Where(x => taken.Contains(x));
+
         }
+
+        public async Task DeleteAsync(Reservation reservation)
+        {
+            _resrevations.Remove(reservation);
+            await _context.SaveChangesAsync();
+        }
+
 
         public Task<Reservation> GetAsync(string name, string surname, DateTime checkIn, DateTime checkOut)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Reservation> GetAync(Guid ReservationId)
+        public Task<Reservation> GetAsync(Guid reservationId) => _resrevations.SingleOrDefaultAsync(x => x.ReservationId.Equals(reservationId));
+
+
+        public async Task UpdateAsync(Reservation reservation)
         {
-            throw new NotImplementedException();
+
+            _resrevations.Update(reservation);
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateRservation(Reservation reservation)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

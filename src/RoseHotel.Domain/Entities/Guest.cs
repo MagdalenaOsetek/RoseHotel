@@ -15,16 +15,17 @@ namespace RoseHotel.Domain.Entities
         public Guid GuestId { get; private set; }
         public User? User { get; private set; }
         public ICollection<Reservation> Reservations { get; private set; }
-
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public string Nationality { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }
+        public Adress Adress { get; private set; }
+
         public Card Card { get; private set; }
 
-        public bool BlackListed { get; private set; }
+        public bool BlackListed { get; private set; } = false;
 
         public Guest()
         {
@@ -36,18 +37,22 @@ namespace RoseHotel.Domain.Entities
 
         }
 
-        public Guest(Guid guestId, string name, string surname, string nationality, DateTime createdAt, Email email, PhoneNumber phoneNumber, Card card) : this(guestId)
+        public Guest( Guid guestId,string name, string surname, string nationality, DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress) 
         {
+            GuestId = guestId;
             Name = name;
             Surname = surname;
             Nationality = nationality;
             CreatedAt = createdAt;
             Email = email;
             PhoneNumber = phoneNumber;
-            Card = card;
+            Adress = adress;
+            
         }
 
         public static Guest Create(Guid guid) => new(guid);
+
+        public bool IsBlackListed () => BlackListed;
 
 
         public void ChangeBlackList(bool status)
@@ -58,6 +63,11 @@ namespace RoseHotel.Domain.Entities
             }
 
             BlackListed = status;
+        }
+
+        public void AddCard( string cardNumber , DateTime expirationDate , string cvv, string fullName)
+        {
+            Card = new Card(cardNumber, expirationDate, cvv, fullName);
         }
     }
 }

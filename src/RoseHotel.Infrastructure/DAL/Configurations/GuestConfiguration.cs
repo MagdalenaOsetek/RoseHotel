@@ -23,17 +23,13 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
             builder.Property(x => x.PhoneNumber)
                 .HasConversion(x => x.Value, x => new PhoneNumber(x));
             builder.OwnsOne(x => x.Card);
+            builder
+                .HasOne(u => u.User)
+                .WithOne(b => b.Guest)
+                .HasForeignKey<User>(u => u.UserId);
 
         }
     }
 
-    public class GuestMap : EntityTypeConfiguration<Guest>
-    {
-        public GuestMap()
-        {
-            this.HasOptional(x => x.User)
-                .WithOptionalPrincipal()
-                .Map(x => x.MapKey("GuestId"));
-        }
-    }
+
 }

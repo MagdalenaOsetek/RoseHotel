@@ -15,6 +15,10 @@ namespace RoseHotel.Infrastructure.DAL
         {
             var connectionString = configuration[$"database:Server = localhost; Port = 5432; Database = Hotel; User Id = admin; Password = admin1234"];
             services.AddDbContext<RoseHotelDbContext>(x => x.UseNpgsql(connectionString));
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration.GetValue<string>("CacheSettings:ConnectionString");
+            });
             //services.AddScoped<ITransferRepository, TransferRepository>();
             //services.AddScoped<IUserRepository, UserRepository>();
             //services.AddScoped<IWalletRepository, WalletRepository>();

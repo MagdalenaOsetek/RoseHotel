@@ -9,6 +9,7 @@ namespace RoseHotel.Domain.Repositories
 {
     public interface IRoomRepository
     {
+
         Task<Room> GetAsync(Guid roomId);
         Task<Room> GetAsync(int number);
         Task<IReadOnlyCollection<Room>> BrowserAsync(string roomType);
