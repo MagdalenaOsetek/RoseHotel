@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RoseHotel.Application.Abstractions;
+using RoseHotel.Application.DTO;
 
-namespace RoseHotel.Infrastructure
+namespace RoseHotel.Application.Queries
 {
-    internal sealed class Clock : IClock
+    public class GetRoom : IQuery<RoomDto>
     {
-        public DateTime GetCurrentTime() => DateTime.UtcNow;
+        public Guid RoomId { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace RoseHotel.Domain.Repositories
     public interface IUserRepository
     {
         Task<User> GetAsync(Guid userId);
-        Task<User> GetAsync(string email);
+        Task<User> GetAsync(string email,string password);
         Task<bool> ExistsAsync(Guid userId);
         Task<IReadOnlyCollection<User>> BrowserAsync();
         Task AddAsync(User user);

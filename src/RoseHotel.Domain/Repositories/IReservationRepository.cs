@@ -10,14 +10,14 @@ namespace RoseHotel.Domain.Repositories
     public interface IReservationRepository
     {
         Task<Reservation> GetAsync(Guid ReservationId);
-       // Task<Reservation> GetAsync(string name, string surname, DateTime checkIn, DateTime checkOut);
+        Task<Reservation> GetAsync(string name, string surname, DateTime checkIn, DateTime checkOut);
 
         Task<IReadOnlyCollection<Reservation>> BrowserAsyncByCheckInDate(DateTime checkIn);
         Task<IReadOnlyCollection<Reservation>> BrowserAsyncByCheckOutDate(DateTime checkOut);
         Task<IReadOnlyCollection<Reservation>> BrowserAsyncByCheckInAndCheckOutDate(DateTime checkIn, DateTime checkOut);
         Task<IReadOnlyCollection<Reservation>> BrowserAsyncByGuestName(string name, string surname);
         Task<IReadOnlyCollection<Reservation>> BrowserAsyncByUser(Guid GuestId);
-        Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut, ICollection<Room> rooms);
+        Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut);
 
         Task AddAsync(Reservation reservation);
         Task UpdateAsync(Reservation reservation);

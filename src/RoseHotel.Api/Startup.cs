@@ -8,22 +8,36 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RoseHotel.Infrastructure;
+using RoseHotel.Application;
+using Microsoft.AspNetCore.Http;
 
 namespace RoseHotel.Api
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+        private readonly string _apiName;
+        private readonly string _apiVersion;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
+            _apiName = _configuration[$"api:{nameof(ApiOptions.Name)}"];
+            _apiVersion = _configuration[$"api:{nameof(ApiOptions.Version)}"];
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddApplication();
+            services.AddInfrastructure(_configuration);
+            services.AddControllers();
+            //services.AddSwaggerGen(swagger =>
+            //{
+            //    swagger.EnableAnnotations();
+            //    swagger.CustomSchemaIds(x => x.FullName);
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,9 +61,25 @@ namespace RoseHotel.Api
 
             app.UseAuthorization();
 
+           // app.UseLogging();
+            //app.UseErrorHandling();
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            app.UseReDoc(reDoc =>
+            {
+                reDoc.RoutePrefix = "docs";
+               // reDoc.SpecUrl($"/swagger/{_apiVersion}/swagger.json");
+                reDoc.SpecUrl($"/swagger/{_apiVersion}/swagger.json");
+            });
+            app.UseRouting();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync($"{_apiName} {_apiVersion}");
+                });
             });
         }
     }

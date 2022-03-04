@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RoseHotel.Application.Abstractions;
 
 namespace RoseHotel.Infrastructure
 {
-    internal sealed class Clock : IClock
+    public class ApiOptions
     {
-        public DateTime GetCurrentTime() => DateTime.UtcNow;
+        public string Name { get; set; }
+        public string Version { get; set; }
     }
 }

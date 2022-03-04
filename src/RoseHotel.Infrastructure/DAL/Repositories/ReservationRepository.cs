@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 using RoseHotel.Domain.Entities;
 using RoseHotel.Domain.Repositories;
 
+
+
+
+
+
 namespace RoseHotel.Infrastructure.DAL.Repositories
 {
     internal sealed class ReservationRepository : IReservationRepository
@@ -55,11 +60,11 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut, ICollection<Room> rooms)
+        public async Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut)
         {
 
             var taken = await _resrevations.Include(x => x.Rooms).Where(x => x.CheckIn <= checkIn || x.CheckOut >= checkOut).Select(x => x.Rooms).SelectMany(x =>x).ToListAsync();
-            var room = await _rooms.Where(x => taken.Contains(x));
+            return await _rooms.Where( x =>  taken.Contains(x)).ToListAsync();
 
         }
 

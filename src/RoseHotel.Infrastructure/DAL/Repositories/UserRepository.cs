@@ -42,9 +42,8 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
 
         public Task<User> GetAsync(Guid userId) => _users.SingleOrDefaultAsync(x => x.UserId.Equals(userId));
 
-
-        public Task<User> GetAsync(string email) => _users.SingleOrDefaultAsync(x => x.Email.Equals(email));
-
+        public Task<User> GetAsync(string email, string password) => _users.SingleOrDefaultAsync(x => x.Email.Equals(email) && x.Password.Equals(password);
+    
 
         public async Task UpdateAsync(User user)
         {

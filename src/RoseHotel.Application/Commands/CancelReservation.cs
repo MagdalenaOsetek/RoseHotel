@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RoseHotel.Application.Abstractions;
 
-namespace RoseHotel.Infrastructure
+namespace RoseHotel.Application.Commands
 {
-    internal sealed class Clock : IClock
-    {
-        public DateTime GetCurrentTime() => DateTime.UtcNow;
-    }
+    public record CancelReservation(Guid ReservationId) : ICommand;
+  
 }
