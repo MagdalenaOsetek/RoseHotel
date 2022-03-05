@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RoseHotel.Application.Abstractions;
+using RoseHotel.Infrastructure.Commands;
 using RoseHotel.Infrastructure.DAL;
-
+using RoseHotel.Infrastructure.Queries;
 
 namespace RoseHotel.Infrastructure
 {
@@ -19,9 +20,9 @@ namespace RoseHotel.Infrastructure
             //services.AddHttpClient();
             // services.AddHttpClient<IPaymentsApiClient, PaymentsApiClient>();
 
-            //services.AddSingleton<IDispatcher, InMemoryDispatcher>();
-            // services.AddSingleton<ICommandDispatcher, InMemoryCommandDispatcher>();
-            // services.AddSingleton<IQueryDispatcher, InMemoryQueryDispatcher>();
+            services.AddSingleton<IDispatcher, InMemoryDispatcher>();
+            services.AddSingleton<ICommandDispatcher, InMemoryCommandDispatcher>();
+            services.AddSingleton<IQueryDispatcher, InMemoryQueryDispatcher>();
             // services.AddSingleton<IUserRepository, InMemoryUserRepository>();
             // services.AddSingleton<IWalletRepository, InMemoryWalletRepository>();
             // services.AddSingleton<ITransferRepository, InMemoryTransferRepository>();
@@ -29,12 +30,10 @@ namespace RoseHotel.Infrastructure
             //services.AddScoped<ErrorHandlerMiddleware>();
             // services.AddScoped<LoggingMiddleware>();
 
-            //services.Configure<ApiOptions>(configuration.GetSection("api"));
-            //database = configuration.GetSection("database");
-            //services.Configure<DatabaseSettings>(database);
-            //services.Configure<DatabaseSettings>("lol");
-            //services.Configure<CacheSettings>(configuration.GetSection("cache").action);
-            //services.Configure<ApiOptions>(configuration.GetSection("api"));
+            var lol = configuration.GetSection("database").Value;
+            services.Configure<DatabaseSettings>(configuration.GetSection("database"));
+            services.Configure<CacheSettings>(configuration.GetSection("cache"));
+            services.Configure<ApiOptions>(configuration.GetSection("api"));
 
 
             services.AddDatabase(configuration);

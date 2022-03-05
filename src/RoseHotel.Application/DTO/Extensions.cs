@@ -32,6 +32,7 @@ namespace RoseHotel.Application.DTO
         public static UserDto AsDto(this User user)
             => new UserDto()
             {
+                UserId = user.UserId,
                 Email = user.Email,
                 Password = user.Password
             };

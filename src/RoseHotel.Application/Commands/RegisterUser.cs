@@ -7,6 +7,9 @@ using RoseHotel.Application.Abstractions;
 
 namespace RoseHotel.Application.Commands
 {
-    public record AddGuestToBasket(Guid BasketId,string Name, string Surname, string Number, string Email, string Adress, string City, string Country, string Code) : ICommand;
-  
+    public record RegisterUser(string Email, string Password) : ICommand
+    {
+        public Guid UserId { get; } = Guid.NewGuid();
+    }
+
 }

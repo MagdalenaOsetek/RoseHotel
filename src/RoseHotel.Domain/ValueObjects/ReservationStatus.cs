@@ -20,6 +20,10 @@ namespace RoseHotel.Domain.ValueObjects
 
         public string Value { get; }
 
+        public ReservationStatus()
+        {
+
+        }
         public ReservationStatus(string value)
         {
 

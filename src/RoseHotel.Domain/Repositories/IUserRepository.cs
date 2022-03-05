@@ -12,6 +12,7 @@ namespace RoseHotel.Domain.Repositories
         Task<User> GetAsync(Guid userId);
         Task<User> GetAsync(string email,string password);
         Task<bool> ExistsAsync(Guid userId);
+        Task<bool> ExistsAsync(string email, string password);
         Task<IReadOnlyCollection<User>> BrowserAsync();
         Task AddAsync(User user);
         Task UpdateAsync(User user);

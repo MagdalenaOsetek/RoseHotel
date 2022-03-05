@@ -40,10 +40,30 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
         public Task<bool> ExistsAsync(Guid userId)
             => _users.AnyAsync(x => x.UserId.Equals(userId));
 
-        public Task<User> GetAsync(Guid userId) => _users.SingleOrDefaultAsync(x => x.UserId.Equals(userId));
+        public Task<bool> ExistsAsync(string email, string password)
+            => _users.AnyAsync(x => x.Email == email && x.Password == password);
 
-        public Task<User> GetAsync(string email, string password) => _users.SingleOrDefaultAsync(x => x.Email.Equals(email) && x.Password.Equals(password);
-    
+
+        public Task<User> GetAsync(Guid userId) => _users.SingleOrDefaultAsync(x => x.UserId == userId);
+
+        //public Task<User> GetAsync(string email, string password) => _users.SingleOrDefaultAsync(x => x.Email == email && x.Password == password);
+
+        public Task<User> GetAsync(string email, string password)
+        {
+            foreach(var x in _users )
+            {
+                if(x.Email == email && x.Password == password)
+                {
+                    Console.WriteLine(email + ' ' + password);
+                    Console.WriteLine(x.Email + ' ' + x.Password);
+                }
+
+            }
+
+            var lol = _users.SingleOrDefaultAsync(x => x.Email == email && x.Password == password);
+            return lol;
+        }
+
 
         public async Task UpdateAsync(User user)
         {

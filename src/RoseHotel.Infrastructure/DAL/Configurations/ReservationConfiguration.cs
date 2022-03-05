@@ -19,6 +19,8 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
                 .HasConversion(x => x.Value, x => new Amount(x));
             builder.Property(x => x.Paid)
                 .HasConversion(x => x.Value, x => new Amount(x));
+            builder.Property(x => x.Status)
+                .HasConversion(x => x.Value, x => new ReservationStatus(x));
             builder.HasOne<Guest>(x => x.Guest)
                 .WithMany(x => x.Reservations).HasForeignKey(x => x.ReservationId);
 

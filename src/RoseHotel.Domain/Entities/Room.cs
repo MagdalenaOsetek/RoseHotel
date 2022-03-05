@@ -23,6 +23,16 @@ namespace RoseHotel.Domain.Entities
 
         }
 
+        public Room(Guid roomId, ICollection<Reservation> reservations, int number, RoomType type, Price price, Capacity capacity)
+        {
+            RoomId = roomId;
+            Reservations = reservations;
+            Number = number;
+            Type = type;
+            Price = price;
+            Capacity = capacity;
+        }
+
         public Room(Guid roomId, int number, RoomType type, Price price, Capacity capacity)
         {
             RoomId = roomId;

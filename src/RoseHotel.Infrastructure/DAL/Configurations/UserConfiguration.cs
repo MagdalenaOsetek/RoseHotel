@@ -22,6 +22,10 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
                 .HasConversion(x => x.Value, x => new Password(x));
             builder.Property(x => x.Role)
                 .HasConversion(x => x.Value, x => new Role(x));
+            builder
+                .HasOne(u => u.Guest)
+                .WithOne(b => b.User)
+                .HasForeignKey<User>(u => u.GuestId);
 
 
 

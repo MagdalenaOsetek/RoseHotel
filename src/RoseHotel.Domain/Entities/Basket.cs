@@ -17,11 +17,22 @@ namespace RoseHotel.Domain.Entities
         public Guid UserId { get; private set; }
         public string Name { get; private set; }
         public string Surname { get; private set; }
-        public string Nationality { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }
         public Adress Adress { get; private set; }
+
+        public Basket(Guid basketId, DateTime checkIn, DateTime checkOut, List<Capacity> roomsCapacity, List<Guid> rooms, Guid userId, string name, string surname, DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress) : this(basketId, checkIn, checkOut, roomsCapacity)
+        {
+            Rooms = rooms;
+            UserId = userId;
+            Name = name;
+            Surname = surname;
+            CreatedAt = createdAt;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            Adress = adress;
+        }
 
         public Basket (Guid basketId, DateTime checkIn, DateTime checkOut, List<Capacity> roomsCapacity)
         {
@@ -36,11 +47,10 @@ namespace RoseHotel.Domain.Entities
             Rooms.Add(roomId);
         }
 
-        public void AddGuest(string name, string surname, string natinality, string number, string email, string adress, string city, string country, string code)
+        public void AddGuest(string name, string surname,  string number, string email, string adress, string city, string country, string code)
         {
             Name = name;
             Surname = surname;
-            Nationality = natinality;
             PhoneNumber = number;
             Email = email;
             Adress = new Adress(adress, city, country, code);

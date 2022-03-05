@@ -20,5 +20,5 @@ namespace RoseHotel.EmailSender.Api
 
     public record PaymentRequest(Reservation reservation);
 
-    public record PaymentResponse(Guid );
+   
 }

@@ -11,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 using RoseHotel.Infrastructure;
 using RoseHotel.Application;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using RoseHotel.Infrastructure.DAL;
 
 namespace RoseHotel.Api
 {
@@ -32,6 +34,9 @@ namespace RoseHotel.Api
         {
             services.AddApplication();
             services.AddInfrastructure(_configuration);
+            var connectionString = _configuration.GetSection("database").Value;
+
+           // services.AddDbContext<RoseHotelDbContext>(x => x.UseNpgsql(connectionString));
             services.AddControllers();
             //services.AddSwaggerGen(swagger =>
             //{
@@ -63,23 +68,23 @@ namespace RoseHotel.Api
 
            // app.UseLogging();
             //app.UseErrorHandling();
-            app.UseSwagger();
-            app.UseSwaggerUI();
-            app.UseReDoc(reDoc =>
-            {
-                reDoc.RoutePrefix = "docs";
-               // reDoc.SpecUrl($"/swagger/{_apiVersion}/swagger.json");
-                reDoc.SpecUrl($"/swagger/{_apiVersion}/swagger.json");
-            });
+          //  app.UseSwagger();
+          //  app.UseSwaggerUI();
+            //app.UseReDoc(reDoc =>
+            //{
+            //    reDoc.RoutePrefix = "docs";
+            //   // reDoc.SpecUrl($"/swagger/{_apiVersion}/swagger.json");
+            //    reDoc.SpecUrl($"/swagger/{_apiVersion}/swagger.json");
+            //});
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync($"{_apiName} {_apiVersion}");
-                });
+                //endpoints.MapGet("/", async context =>
+                //{
+                //    //await context.Response.WriteAsync($"{_apiName} {_apiVersion}");
+                //});
             });
         }
     }

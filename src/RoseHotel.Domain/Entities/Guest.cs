@@ -17,7 +17,6 @@ namespace RoseHotel.Domain.Entities
         public ICollection<Reservation> Reservations { get; private set; }
         public string Name { get; private set; }
         public string Surname { get; private set; }
-        public string Nationality { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }
@@ -31,18 +30,26 @@ namespace RoseHotel.Domain.Entities
         {
         }
 
-        public Guest(Guid id)
+        public Guest(Guid guestId, User user, ICollection<Reservation> reservations, string name, string surname, DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress, Card card, bool blackListed)
         {
-            GuestId = id;
-
+            GuestId = guestId;
+            User = user;
+            Reservations = reservations;
+            Name = name;
+            Surname = surname;
+            CreatedAt = createdAt;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            Adress = adress;
+            Card = card;
+            BlackListed = blackListed;
         }
 
-        public Guest( Guid guestId,string name, string surname, string nationality, DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress) 
+        public Guest( Guid guestId,string name, string surname,  DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress) 
         {
             GuestId = guestId;
             Name = name;
             Surname = surname;
-            Nationality = nationality;
             CreatedAt = createdAt;
             Email = email;
             PhoneNumber = phoneNumber;
@@ -50,7 +57,6 @@ namespace RoseHotel.Domain.Entities
             
         }
 
-        public static Guest Create(Guid guid) => new(guid);
 
         public bool IsBlackListed () => BlackListed;
 

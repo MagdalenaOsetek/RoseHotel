@@ -29,12 +29,13 @@ namespace RoseHotel.Application.Commands.Handlers
         public async Task HandleAsync(ConfirmReservation command)
         {            
             var basket = await _basketRepository.GetAsync(command.BasketId);
-            Guest guest = await _guestRepository.GetAsync(basket.Name, basket.Surname, basket.Nationality, basket.PhoneNumber, basket.Email, basket.Adress.Street, basket.Adress.City, basket.Adress.Country, basket.Adress.ZipCode);
-            
 
+            Guest guest = await _guestRepository.GetAsync(basket.Name, basket.Surname, basket.PhoneNumber, basket.Email, basket.Adress.Street, basket.Adress.City, basket.Adress.Country, basket.Adress.ZipCode);
+                
+            
             if(guest is null)
             {
-                 guest = new Guest(command.GuestId,basket.Name, basket.Surname, basket.Nationality,_clock.GetCurrentTime(), basket.Email,basket.PhoneNumber, basket.Adress);
+                 guest = new Guest(command.GuestId,basket.Name, basket.Surname,_clock.GetCurrentTime(), basket.Email,basket.PhoneNumber, basket.Adress);
                 await  _guestRepository.AddAsync(guest);
             }
 

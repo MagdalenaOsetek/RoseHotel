@@ -21,6 +21,17 @@ namespace RoseHotel.Domain.Entities
 
         public ReservationStatus Status { get; private set; } = "UNVERIFIED";
 
+        public Reservation()
+        {
+        }
+
+        public Reservation(Guid reservationId, ICollection<Room> rooms, Guest guest, DateTime checkIn, DateTime checkOut, DateTime createdAt, Amount toPay, Amount paid, ReservationStatus status) : this(reservationId, rooms, guest, checkIn, checkOut, createdAt)
+        {
+            ToPay = toPay;
+            Paid = paid;
+            Status = status;
+        }
+
         public Reservation(Guid reservationId, ICollection<Room> rooms, Guest guest, DateTime checkIn, DateTime checkOut, DateTime createdAt)
         {
             ReservationId = reservationId;

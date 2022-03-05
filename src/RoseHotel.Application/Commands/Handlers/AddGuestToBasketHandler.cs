@@ -18,9 +18,9 @@ namespace RoseHotel.Application.Commands.Handlers
         }
         public async Task HandleAsync(AddGuestToBasket command)
         {
-            var (basketId,name, surname, natinality, number, email, adress, city, country, code) = command;
+            var (basketId,name, surname,  number, email, adress, city, country, code) = command;
             var basket = await _basketRepository.GetAsync(basketId);
-            basket.AddGuest(name, surname, natinality, number, email, adress, city, country, code);
+            basket.AddGuest(name, surname, number, email, adress, city, country, code);
             await _basketRepository.UpdateAsync(basket);
         }
     }

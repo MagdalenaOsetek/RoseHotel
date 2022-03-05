@@ -39,10 +39,9 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<Guest> GetAsync(string name, string surname, string natinality, string number, string email, string adress, string city, string country, string code)
+        public Task<Guest> GetAsync(string name, string surname, string number, string email, string adress, string city, string country, string code)
             => _guests.SingleOrDefaultAsync(x => x.Name.Equals(name) 
             && x.Surname.Equals(surname) 
-            && x.Nationality.Equals(natinality) 
             && x.PhoneNumber.Equals(number)
             && x.Email.Equals(email)
             && x.Adress.Street.Equals(adress)

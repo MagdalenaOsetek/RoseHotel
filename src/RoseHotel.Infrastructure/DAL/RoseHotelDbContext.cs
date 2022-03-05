@@ -11,20 +11,22 @@ namespace RoseHotel.Infrastructure.DAL
     internal sealed class RoseHotelDbContext : DbContext
     {
 
-        public  DbSet<Room> Rooms { get; set; }
-        public  DbSet<Reservation> Reservations { get; set; }
-        public  DbSet<Guest> Guests { get; set; }
-        public  DbSet<User> Users { get; set; }
-
         public RoseHotelDbContext(DbContextOptions<RoseHotelDbContext> options) : base(options)
         {
+
         }
 
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Guest> Guests { get; set; }
+        public DbSet<User> Users { get; set; }
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // modelBuilder.ApplyConfiguration(new UserConfiguration());
+        {     
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-            
+
         }
     }
 }

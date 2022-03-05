@@ -12,10 +12,11 @@ namespace RoseHotel.Domain.Entities
     {
         public Guid UserId { get; private set; }
         public Guest Guest { get; private set; }
+        public Guid GuestId { get; private set; }
         public Email Email { get; private set; }
         public Password Password { get; private set; }
         public Role Role { get; set; }
-        public string Token { get; set; }
+        public string? Token { get; set; }
 
         public DateTime CreatedAt { get; private set; }
         public DateTime? VerifiedAt { get; private set; }
@@ -24,15 +25,31 @@ namespace RoseHotel.Domain.Entities
         {
         }
 
-        public User(Guid userId, Email email, Password password, Role role,  DateTime createdAt, DateTime? verifiedAt)
+        public User(Guid userId, Guest? guest, Email email, Password password, Role role, string? token, DateTime createdAt, DateTime? verifiedAt)
         {
             UserId = userId;
-          //  Guest = guest;
+            Guest = guest;
             Email = email;
             Password = password;
             Role = role;
+            Token = token;
             CreatedAt = createdAt;
             VerifiedAt = verifiedAt;
+        }
+
+        public User Create(Guid userId, Email email, Password password, Role role, DateTime createdAt, DateTime? verifiedAt) => new User
+        {
+            UserId = userId,
+            Email = email,
+            Password = password,
+            Role = role,
+            CreatedAt = createdAt,
+            VerifiedAt = verifiedAt,
+        };
+
+        public void AddGuest (Guest guest)
+        {
+            Guest = guest;
         }
 
         public bool IsVerified => VerifiedAt.HasValue;

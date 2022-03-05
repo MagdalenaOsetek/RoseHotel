@@ -15,15 +15,16 @@ namespace RoseHotel.Infrastructure.DAL
     {
         public static IServiceCollection AddDatabase(this IServiceCollection services,IConfiguration configuration)
         {
-
+            var lol = nameof(DatabaseSettings.ConnectionString);
             //var connectionString = configuration[$"database:{nameof(DatabaseSettings.ConnectionString)}"];
-            var connectionString = configuration[$"database:Server = localhost; Port = 5432; Database = Hotel; User Id = admin; Password = admin1234"];
+            var connectionString = configuration.GetSection("database").Value;
+         //   var connectionString = configuration[$"database:Server = localhost; Port = 5432; Database = Hotel; User Id = admin; Password = admin1234"];
 
             services.AddDbContext<RoseHotelDbContext>(x => x.UseNpgsql(connectionString));
 
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = configuration[$"cache: localhost: 6379"];
+                options.Configuration = configuration[$"cache:{nameof(CacheSettings.ConnectionString)}"];
 
             });
             services.AddScoped<IBasketRepository, BasketRepository>();

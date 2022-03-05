@@ -15,8 +15,10 @@ namespace RoseHotel.Domain.ValueObjects
         public string Cvv { get; }
         public string FullName { get; }
 
+        public Card()
+        {
 
-
+        }
 
         public Card(string cardNumber, DateTime expirationDate, string cvv, string fullName)
         {

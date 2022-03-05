@@ -1,0 +1,53 @@
+@url = https://localhost:5001
+
+###
+@userId = 70ee1ffd-a8b4-41dc-a459-86d99bd4aebf
+
+###
+GET {{url}}/api/users
+
+###
+GET {{url}}/api/users/{{userId}}
+
+###
+POST {{url}}/basket
+Content-Type: application/json
+
+{
+  "checkIn": "2022-01-10",
+  "checkOut": "2022-12-10",
+  "roomCapacity": [ 1, 2]
+  
+}
+
+
+###
+POST {{url}}/user/register
+Content-Type: application/json
+
+{
+  "email": "magdao12oczta.onet.eu",
+  "password": "LOL1223#@334fr"
+}
+
+
+###
+POST {{url}}/user/verify
+Content-Type: application/json
+
+{
+  "userId": "79713211-4db9-4648-9471-b4eead5a4c52"
+}
+
+
+
+###
+GET {{url}}/user
+Content-Type: application/json
+
+{
+  "email": "magdao12oczta.onet.eu",
+  "password": "LOL1223#@334fr"
+}
+
+

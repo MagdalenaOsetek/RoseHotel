@@ -21,7 +21,8 @@ namespace RoseHotel.Application.Queries.Handlers
         public async Task<UserDto> HandleAsync(GetUser query)
         {
            var user = await _userRepository.GetAsync(query.Email, query.Password);
-            return user.AsDto();
+
+           return user.AsDto();
         }
     }
 }

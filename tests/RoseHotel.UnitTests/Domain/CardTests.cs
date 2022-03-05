@@ -73,7 +73,7 @@ namespace RoseHotel.UnitTests.Domain
 
             card.CardNumber.ShouldBe(number);
             card.ExpirationDate.ShouldBe(DateTime.Parse(date));
-            card.CVV.ShouldBe(cvv);
+            card.Cvv.ShouldBe(cvv);
             card.FullName.ShouldBe(fullname);
         }
     }
