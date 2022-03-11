@@ -10,6 +10,7 @@ namespace RoseHotel.Application.Commands
     public record RegisterUser(string Email, string Password) : ICommand
     {
         public Guid UserId { get; } = Guid.NewGuid();
+        public Guid GuestId { get; } = Guid.NewGuid();
     }
 
 }

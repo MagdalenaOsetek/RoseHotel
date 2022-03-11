@@ -34,8 +34,7 @@ namespace RoseHotel.Domain.ValueObjects
         public static bool operator >(Amount a, Amount b) => a.Value > b.Value;
         public static bool operator <=(Amount a, Amount b) => a.Value <= b.Value;
         public static bool operator >=(Amount a, Amount b) => a.Value >= b.Value;
-        public static bool operator == (Amount a, Amount b) => a.Value == b.Value;
-        public static bool operator != (Amount a, Amount b) => a.Value != b.Value;
+
 
 
     }

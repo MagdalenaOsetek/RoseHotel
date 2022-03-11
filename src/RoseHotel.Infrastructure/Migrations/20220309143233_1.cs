@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RoseHotel.Infrastructure.Migrations
 {
-    public partial class k : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,12 +15,16 @@ namespace RoseHotel.Infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: true),
                     Surname = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     Adress_Street = table.Column<string>(type: "text", nullable: true),
                     Adress_City = table.Column<string>(type: "text", nullable: true),
                     Adress_Country = table.Column<string>(type: "text", nullable: true),
                     Adress_ZipCode = table.Column<string>(type: "text", nullable: true),
+                    Card_CardNumber = table.Column<string>(type: "text", nullable: true),
+                    Card_ExpirationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Card_Cvv = table.Column<string>(type: "text", nullable: true),
+                    Card_FullName = table.Column<string>(type: "text", nullable: true),
                     BlackListed = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -48,6 +52,7 @@ namespace RoseHotel.Infrastructure.Migrations
                 columns: table => new
                 {
                     ReservationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GuestId = table.Column<Guid>(type: "uuid", nullable: false),
                     CheckIn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CheckOut = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -59,8 +64,8 @@ namespace RoseHotel.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Reservations", x => x.ReservationId);
                     table.ForeignKey(
-                        name: "FK_Reservations_Guests_ReservationId",
-                        column: x => x.ReservationId,
+                        name: "FK_Reservations_Guests_GuestId",
+                        column: x => x.GuestId,
                         principalTable: "Guests",
                         principalColumn: "GuestId",
                         onDelete: ReferentialAction.Cascade);
@@ -71,6 +76,7 @@ namespace RoseHotel.Infrastructure.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GuestId = table.Column<Guid>(type: "uuid", nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "text", nullable: true),
                     Role = table.Column<string>(type: "text", nullable: true),
@@ -82,8 +88,8 @@ namespace RoseHotel.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_Users_Guests_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Users_Guests_GuestId",
+                        column: x => x.GuestId,
                         principalTable: "Guests",
                         principalColumn: "GuestId",
                         onDelete: ReferentialAction.Cascade);
@@ -120,6 +126,11 @@ namespace RoseHotel.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reservations_GuestId",
+                table: "Reservations",
+                column: "GuestId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_ReservationId",
                 table: "Reservations",
                 column: "ReservationId",
@@ -140,6 +151,12 @@ namespace RoseHotel.Infrastructure.Migrations
                 name: "IX_Rooms_RoomId",
                 table: "Rooms",
                 column: "RoomId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_GuestId",
+                table: "Users",
+                column: "GuestId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

@@ -47,7 +47,6 @@ namespace RoseHotel.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
@@ -71,6 +70,7 @@ namespace RoseHotel.Infrastructure.Migrations
             modelBuilder.Entity("RoseHotel.Domain.Entities.Reservation", b =>
                 {
                     b.Property<Guid>("ReservationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CheckIn")
@@ -82,6 +82,9 @@ namespace RoseHotel.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<Guid>("GuestId")
+                        .HasColumnType("uuid");
+
                     b.Property<decimal?>("Paid")
                         .HasColumnType("numeric");
 
@@ -92,6 +95,8 @@ namespace RoseHotel.Infrastructure.Migrations
                         .HasColumnType("numeric");
 
                     b.HasKey("ReservationId");
+
+                    b.HasIndex("GuestId");
 
                     b.HasIndex("ReservationId")
                         .IsUnique();
@@ -131,6 +136,7 @@ namespace RoseHotel.Infrastructure.Migrations
             modelBuilder.Entity("RoseHotel.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -140,6 +146,9 @@ namespace RoseHotel.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("GuestId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Password")
                         .HasColumnType("text");
@@ -154,6 +163,9 @@ namespace RoseHotel.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("GuestId")
+                        .IsUnique();
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -208,6 +220,18 @@ namespace RoseHotel.Infrastructure.Migrations
                             b1.Property<Guid>("GuestId")
                                 .HasColumnType("uuid");
 
+                            b1.Property<string>("CardNumber")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Cvv")
+                                .HasColumnType("text");
+
+                            b1.Property<DateTime>("ExpirationDate")
+                                .HasColumnType("timestamp without time zone");
+
+                            b1.Property<string>("FullName")
+                                .HasColumnType("text");
+
                             b1.HasKey("GuestId");
 
                             b1.ToTable("Guests");
@@ -225,7 +249,7 @@ namespace RoseHotel.Infrastructure.Migrations
                 {
                     b.HasOne("RoseHotel.Domain.Entities.Guest", "Guest")
                         .WithMany("Reservations")
-                        .HasForeignKey("ReservationId")
+                        .HasForeignKey("GuestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -236,7 +260,7 @@ namespace RoseHotel.Infrastructure.Migrations
                 {
                     b.HasOne("RoseHotel.Domain.Entities.Guest", "Guest")
                         .WithOne("User")
-                        .HasForeignKey("RoseHotel.Domain.Entities.User", "UserId")
+                        .HasForeignKey("RoseHotel.Domain.Entities.User", "GuestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

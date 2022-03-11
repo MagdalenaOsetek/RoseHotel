@@ -16,9 +16,9 @@ namespace RoseHotel.UnitTests.Domain
         public static DateTime date1 = new DateTime(2008, 5, 1, 8, 30, 52);
 
         [Theory]
-        [InlineData ("456940396114710", "1988-05-01", "55!","")]
-        [InlineData ("45694039_61014710", "1988-05-01", "55!","")]
-        [InlineData ("45694039610147104444", "1988-05-01", "55!","")]
+        [InlineData("456940396114710", "1988-05-01", "55!", "")]
+        [InlineData("45694039_61014710", "1988-05-01", "55!", "")]
+        [InlineData("45694039610147104444", "1988-05-01", "55!", "")]
         public void Card_Should_Throw_InvalidCardNumberException_When_CardNumber_Is_Invalid(string number, string date, string cvv, string fullname)
         {
             var exception = Record.Exception(() => new Card(number, DateTime.Parse(date), cvv, fullname));

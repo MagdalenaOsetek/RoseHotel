@@ -21,6 +21,11 @@ namespace RoseHotel.Application.Queries.Handlers
         {
             var room = await _roomRepository.GetAsync(query.RoomId);
 
+            if (room ==  null)
+            {
+                return null;
+            }
+
             return room.AsDto();
         }
     }

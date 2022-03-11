@@ -10,7 +10,7 @@ namespace RoseHotel.Application.Exceptions
     public class UserNotFoundException : RoseHotelException
     {
         public Guid Id { get; set; }
-        public UserNotFoundException(Guid value) : base($"User with id '{value}' already exists")
+        public UserNotFoundException(Guid value) : base($"User with id '{value}' not found")
         {
             Id = value;
         }

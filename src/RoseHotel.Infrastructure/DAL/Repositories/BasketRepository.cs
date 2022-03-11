@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JsonNet.ContractResolvers;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using RoseHotel.Application.DTO;
 using RoseHotel.Domain.Entities;
 using RoseHotel.Domain.Repositories;
 
@@ -27,14 +29,22 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
             if (String.IsNullOrEmpty(basket))
                 return null;
 
-            return JsonConvert.DeserializeObject<Basket>(basket);
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new PrivateSetterContractResolver()
+            };
+
+            var lol= JsonConvert.DeserializeObject<Basket>(basket, settings);
+
+            return lol;
+            
         }
 
         public async Task UpdateAsync(Basket basket)
         {
+
             await _redisCache.SetStringAsync(basket.BasketId.ToString(), JsonConvert.SerializeObject(basket));
 
-            //return await GetBasket(basket.BasketId);
         }
 
         public async Task DeleteAsync(Guid basketId)

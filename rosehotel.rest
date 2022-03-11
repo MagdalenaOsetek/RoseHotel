@@ -3,23 +3,16 @@
 ###
 @userId = 70ee1ffd-a8b4-41dc-a459-86d99bd4aebf
 
-###
-GET {{url}}/api/users
 
 ###
-GET {{url}}/api/users/{{userId}}
-
-###
-POST {{url}}/basket
+GET {{url}}/user/browserReservations
 Content-Type: application/json
 
 {
-  "checkIn": "2022-01-10",
-  "checkOut": "2022-12-10",
-  "roomCapacity": [ 1, 2]
-  
+  "userId": "154a4365-8762-406b-9c77-1a5c7f27af09"
 }
 
+//USER
 
 ###
 POST {{url}}/user/register
@@ -32,22 +25,154 @@ Content-Type: application/json
 
 
 ###
-POST {{url}}/user/verify
+PUT {{url}}/user/verify
 Content-Type: application/json
 
 {
-  "userId": "79713211-4db9-4648-9471-b4eead5a4c52"
+  "userId": "154a4365-8762-406b-9c77-1a5c7f27af09"
 }
-
-
 
 ###
 GET {{url}}/user
 Content-Type: application/json
 
 {
-  "email": "magdao12oczta.onet.eu",
-  "password": "LOL1223#@334fr"
+  "email": "fdgdwer2@poczta.onet.eu",
+  "password": "LfdfO12yy23#@334fr"
 }
 
 
+###
+POST {{url}}/user/register
+Content-Type: application/json
+
+{
+  "email": "fdgdwer2@poczta.onet.eu",
+  "password": "LfdfO12yy23#@334fr"
+}
+
+
+###
+PUt {{url}}/user/upsertGuest
+Content-Type: application/json
+
+{
+  "userId": "154a4365-8762-406b-9c77-1a5c7f27af09",
+  "name": "Aleksandra",
+  "surname": "Osetek",
+  "number": "693897274",
+  "adress": "Klejowa",
+  "city": "Szczyrk",
+  "country": "PL",
+  "code": "80001-2222"
+}
+
+
+
+
+
+
+
+
+
+
+//BASKET
+
+###
+POST {{url}}/basket/chooseDate
+Content-Type: application/json
+
+{
+  "checkIn": "2023-04-03",
+  "checkOut": "2023-04-04",
+  "roomsCapacity": [
+                       3                    
+                   ]
+}
+
+###
+GET {{url}}/basket
+Content-Type: application/json
+
+{
+  "basketId": "8db7fbfd-5935-4d3f-8d3a-26433658f400"
+}
+
+###
+PUT {{url}}/basket/addGuest
+Content-Type: application/json
+
+{
+  "basketId": "8db7fbfd-5935-4d3f-8d3a-26433658f400",
+  "name": "Magdalena",
+  "surname": "Osetek",
+  "number": "693897274",
+  "email": "lol123@gmail.com",
+  "adress": "Klejowa",
+  "city": "Szczyrk",
+  "country": "PL",
+  "code": "80001-2222"
+}
+
+
+###
+PUT {{url}}/basket/addRoom
+Content-Type: application/json
+
+{
+  "basketId": "8db7fbfd-5935-4d3f-8d3a-26433658f400",
+  "roomId": "890e5e8a-a46d-4838-a3c5-3df7fd5d9bf4"
+}
+
+
+
+
+
+
+//RESERVATION
+
+###
+POST {{url}}/reservation/confirm
+Content-Type: application/json
+
+{
+  "basketId": "8db7fbfd-5935-4d3f-8d3a-26433658f400"
+}
+
+
+###
+PUT {{url}}/reservation/pay
+Content-Type: application/json
+
+{
+  "reservationId": "0604f77d-6fec-41bb-81ac-de17c449a5de",
+  "amount": 459.99,
+  "cardNumber":"5191914942157165",
+  "expirationDate": "2022-05-31",
+  "cvv": "737",
+  "fullName": "Magdalena Osetek"
+}
+
+
+###
+DELETE  {{url}}/reservation/cancel
+Content-Type: application/json
+
+{
+  "reservationId": "01acd667-999b-481f-9ead-aeaacb7bce6b"
+}
+
+
+
+//ROOM
+
+###
+POST {{url}}/room/add
+Content-Type: application/json
+
+{
+  "number": "2",
+  "type": "LUX",
+  "price": 459.99,
+  "capacity": 3
+}

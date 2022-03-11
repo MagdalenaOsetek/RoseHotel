@@ -19,11 +19,20 @@ namespace RoseHotel.Application
         {
           //  services.AddScoped<IUsersService, UsersService>();
 
-            services.AddScoped<ICommandHandler<ChooseDateToBasket>, ChooseDateToBasketHandler>();
-            services.AddScoped<ICommandHandler<RegisterUser>, RegisterUserHandler>();
+            services.AddScoped<ICommandHandler<AddRoom>, AddRoomHandler>();
 
+            services.AddScoped<ICommandHandler<ConfirmReservation>, ConfirmReservationHandler>();
+            services.AddScoped<ICommandHandler<CancelReservation>, CancelReservationHandler>();
+            services.AddScoped<ICommandHandler<PayReservation>, PayReservationHandler>();
+
+            services.AddScoped<ICommandHandler<ChooseDateToBasket>, ChooseDateToBasketHandler>();
+            services.AddScoped<ICommandHandler<AddGuestToBasket>, AddGuestToBasketHandler>();
+            services.AddScoped<ICommandHandler<AddRoomToBasket>, AddRoomToBasketHandler>();
+
+            services.AddScoped<ICommandHandler<RegisterUser>, RegisterUserHandler>();
             services.AddScoped<ICommandHandler<VerifyUser>, VerifyUserHandler>();
-            services.AddScoped<ICommandHandler<AddGuestToUser>, AddGuestToUserHandler>();
+            services.AddScoped<ICommandHandler<UpsertGuestToUser>, UpsertGuestToUserHandler>();
+
             // services.AddScoped<ICommandHandler<ChooseDateToBasket>, ChooseDateToBasketHandler>();
             // services.AddScoped<ICommandHandler<AddWallet>, AddWalletHandler>();
             //   services.AddScoped<ICommandHandler<DeleteWallet>, DeleteWalletHandler>();
@@ -31,6 +40,9 @@ namespace RoseHotel.Application
 
             //services.AddScoped<ICommandHandler<GetUser>, GetUserHandler>();
             services.AddScoped<IQueryHandler<GetUser, UserDto>, GetUserHandler>();
+            services.AddScoped<IQueryHandler<GetBasket, BasketDto>, GetBasketHandler>();
+            services.AddScoped<IQueryHandler<BrowserUserReservations, IReadOnlyCollection<ReservationDto>>, BrowserUserReservationsHandler>();
+            services.AddScoped<IQueryHandler<BrowserFreeRooms, IReadOnlyCollection<RoomDto>>, BrowserFreeRoomsHandler>();
             //  services.AddScoped<IQueryHandler<GetWallet, WalletDetailsDto>, GetWalletHandler>();
 
             return services;

@@ -39,21 +39,20 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<Guest> GetAsync(string name, string surname, string number, string email, string adress, string city, string country, string code)
-            => _guests.SingleOrDefaultAsync(x => x.Name.Equals(name) 
-            && x.Surname.Equals(surname) 
-            && x.PhoneNumber.Equals(number)
-            && x.Email.Equals(email)
-            && x.Adress.Street.Equals(adress)
-            && x.Adress.City.Equals(city)
-            && x.Adress.Country.Equals(country)
-            && x.Adress.ZipCode.Equals(code));
-             
+        public Task<Guest> GetAsync(string name, string surname, string number, string email, string street, string city, string country, string code)
+            => _guests.SingleOrDefaultAsync(x => x.Name == name
+            && x.Surname == surname
+            && x.PhoneNumber == number
+            && x.Email == email
+            && x.Adress.Street == street
+            && x.Adress.City == city
+            && x.Adress.Country == country
+            && x.Adress.ZipCode == code);
 
-        public Task<Guest> GetAsync(Guid guestId)
-        {
-            throw new NotImplementedException();
-        }
+
+        public Task<Guest> GetAsync(Guid guestId) => _guests.SingleOrDefaultAsync(x => x.GuestId == guestId);
+
+
 
         public Task<Guest> GetAsync(string email)
         {

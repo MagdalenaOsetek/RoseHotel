@@ -7,6 +7,6 @@ using RoseHotel.Application.Abstractions;
 
 namespace RoseHotel.Application.Commands
 {
-    public record  AddRoomToBasket (Guid BasketId,Guid RoomId) : ICommand;
+    public record  AddRoomToBasket (Guid BasketId,int Capacity, string RoomType) : ICommand;
 
 }

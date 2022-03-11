@@ -29,16 +29,20 @@ namespace RoseHotel.Application.Commands.Handlers
             {
                 throw new ReservationNotFoundException(id);
             }
-            if(reservation.Guest is null)
+
+            var guest = await _guestRepository.GetAsync(reservation.GuestId);
+
+            if (guest is null)
             {
                 throw new GuestNotFoundException(reservation.Guest.GuestId);
             }
-
-            reservation.Guest.AddCard(cardNumber, expirationDate, cvv, fullName);
+            
+            
+            guest.AddCard(cardNumber, expirationDate, cvv, fullName);
 
             reservation.Pay(amount);
 
-            await _guestRepository.UpdateAsync(reservation.Guest);
+            await _guestRepository.UpdateAsync(guest);
             await _reservationRepository.UpdateAsync(reservation);
         }
     }

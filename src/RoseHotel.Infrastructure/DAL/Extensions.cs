@@ -22,9 +22,11 @@ namespace RoseHotel.Infrastructure.DAL
 
             services.AddDbContext<RoseHotelDbContext>(x => x.UseNpgsql(connectionString));
 
+
+            var connectionString2 = configuration.GetSection("cache").Value;
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = configuration[$"cache:{nameof(CacheSettings.ConnectionString)}"];
+                options.Configuration = connectionString2;
 
             });
             services.AddScoped<IBasketRepository, BasketRepository>();

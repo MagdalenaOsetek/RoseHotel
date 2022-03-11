@@ -21,20 +21,35 @@ namespace RoseHotel.Domain.Entities
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; }
         public Adress Adress { get; private set; }
-
         public Card Card { get; private set; }
+        
+
 
         public bool BlackListed { get; private set; } = false;
+ 
 
         public Guest()
         {
         }
 
-        public Guest(Guid guestId, User user, ICollection<Reservation> reservations, string name, string surname, DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress, Card card, bool blackListed)
+        public Guest(Guid guestId)
         {
             GuestId = guestId;
-            User = user;
-            Reservations = reservations;
+        }
+
+        public void AddInfo (string name, string surname,string email, string number, string street, string city, string country, string code,DateTime createdAt)
+        {
+            Name = name;
+            Surname = surname;
+            PhoneNumber = number;
+            Email = email;
+            CreatedAt = createdAt;
+            Adress = new Adress(street, city, country, code);
+        }
+
+        public Guest(Guid guestId, string name, string surname, DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress, Card card)
+        {
+            GuestId = guestId;
             Name = name;
             Surname = surname;
             CreatedAt = createdAt;
@@ -42,21 +57,18 @@ namespace RoseHotel.Domain.Entities
             PhoneNumber = phoneNumber;
             Adress = adress;
             Card = card;
-            BlackListed = blackListed;
+
         }
 
-        public Guest( Guid guestId,string name, string surname,  DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress) 
+        public Guest(Guid guestId, string name, string surname, DateTime createdAt, Email email, PhoneNumber phoneNumber, Adress adress) : this(guestId)
         {
-            GuestId = guestId;
             Name = name;
             Surname = surname;
             CreatedAt = createdAt;
             Email = email;
             PhoneNumber = phoneNumber;
             Adress = adress;
-            
         }
-
 
         public bool IsBlackListed () => BlackListed;
 
@@ -71,7 +83,7 @@ namespace RoseHotel.Domain.Entities
             BlackListed = status;
         }
 
-        public void AddCard( string cardNumber , DateTime expirationDate , string cvv, string fullName)
+        public void AddCard(string cardNumber, DateTime expirationDate, string cvv, string fullName)
         {
             Card = new Card(cardNumber, expirationDate, cvv, fullName);
         }

@@ -42,7 +42,7 @@ namespace RoseHotel.Domain.ValueObjects
 
         public static implicit operator string(ReservationStatus value) => value?.Value;
 
-        public static bool operator ==(ReservationStatus a, ReservationStatus b) => a.Value == b.Value;
-        public static bool operator !=(ReservationStatus a, ReservationStatus b) => a.Value != b.Value;
+        //public static bool operator ==(ReservationStatus a, ReservationStatus b) => a.Value == b.Value;
+        //public static bool operator !=(ReservationStatus a, ReservationStatus b) => a.Value != b.Value;
     }
 }

@@ -9,7 +9,7 @@ using RoseHotel.Domain.Repositories;
 
 namespace RoseHotel.Application.Queries.Handlers
 {
-    internal sealed class BrowserFreeRoomsHandler : IQueryHandler<BrowserReservationCheckIn, IReadOnlyList<RoomDto>>
+    internal sealed class BrowserFreeRoomsHandler : IQueryHandler<BrowserFreeRooms, IReadOnlyCollection<RoomDto>>
     {
 
         private readonly IReservationRepository _reservationRepository;
@@ -21,10 +21,14 @@ namespace RoseHotel.Application.Queries.Handlers
             
         }
 
-        public async Task<IReadOnlyList<RoomDto>> HandleAsync(BrowserReservationCheckIn query)
+        public async Task<IReadOnlyCollection<RoomDto>> HandleAsync(BrowserFreeRooms query)
         {
+            var rooms = await _reservationRepository.BrowserAsyncFreeRooms(query.CheckIn, query.CheckOut, query.RoomsCapacity);
 
-            var rooms = await _reservationRepository.BrowserAsyncFreeRooms(query.CheckIn, query.CheckOut);
+            if(rooms == null)
+            {
+                return null;
+            }
 
             return rooms.Select(x => x.AsDto()).ToList();
         }

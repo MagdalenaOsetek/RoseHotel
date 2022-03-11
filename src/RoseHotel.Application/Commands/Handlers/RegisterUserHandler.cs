@@ -24,14 +24,16 @@ namespace RoseHotel.Application.Commands.Handlers
         {
             var (email, password) = command;
 
-            var userExists = await _userRepository.ExistsAsync(email, password);
+            var userExists = await _userRepository.ExistsAsync(email);
 
             if(userExists)
             {
                 throw new UserAlreadyExistsException(email);
             }
 
-            var user = new User(command.UserId,null, email, password, "USER",null, _clock.GetCurrentTime(), null);
+            var guest = new Guest(command.GuestId);
+
+            var user = new User(command.UserId,guest, email, password, "USER",null, _clock.GetCurrentTime(), null);
 
             await _userRepository.AddAsync(user);
 

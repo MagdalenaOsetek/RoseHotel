@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RoseHotel.Application.Abstractions;
 using RoseHotel.Application.Commands;
+using RoseHotel.Application.DTO;
+using RoseHotel.Application.Queries;
 
 namespace RoseHotel.Api.Controllers
 {
@@ -18,15 +20,41 @@ namespace RoseHotel.Api.Controllers
         }
 
 
-        [HttpPost]
-       // [SwaggerOperation("Add wallet to the database")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Post(ChooseDateToBasket command)
+
+        [HttpGet]
+        public async Task<ActionResult<BasketDto>> Get(GetBasket query)
+              => Ok(await _dispatcher.QueryAsync(query));
+
+
+        [HttpPost("chooseDate")]
+        public async Task<IActionResult> ChooseDate(ChooseDateToBasket command)
         {
             await _dispatcher.SendAsync(command);
             return NoContent();
-          //  return CreatedAtAction(nameof(Get), new { walletId = command.WalletId }, null);
+          
         }
+        
+
+        [HttpPut("addGuest")]
+        public async Task<IActionResult> AddGuest(AddGuestToBasket command)
+        {
+            await _dispatcher.SendAsync(command);
+            return NoContent();
+
+        }
+
+
+
+        [HttpPut("addRoom")]
+        public async Task<IActionResult> AddRoom(AddRoomToBasket command)
+        {
+            await _dispatcher.SendAsync(command);
+            return NoContent();
+
+        }
+
+
+  
+
     }
 }

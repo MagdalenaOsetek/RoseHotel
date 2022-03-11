@@ -8,7 +8,7 @@ using RoseHotel.Application.DTO;
 
 namespace RoseHotel.Application.Queries
 {
-    class BrowserReservationByUser : IQuery<IReadOnlyCollection<ReservationDto>>
+     public class BrowserUserReservations : IQuery<IReadOnlyCollection<ReservationDto>>
     {
         public Guid UserId { get; set; }
     }

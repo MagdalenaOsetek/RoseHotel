@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RoseHotel.Application.Abstractions;
+using RoseHotel.Application.Exceptions;
 using RoseHotel.Domain.Entities;
 using RoseHotel.Domain.Repositories;
+using RoseHotel.Domain.ValueObjects;
 
 namespace RoseHotel.Application.Commands.Handlers
 {
@@ -30,24 +32,49 @@ namespace RoseHotel.Application.Commands.Handlers
         {            
             var basket = await _basketRepository.GetAsync(command.BasketId);
 
+            if(basket == null)
+            {
+                throw new BasketNotFoundException(command.BasketId);
+            }
+
+            if (basket.Rooms.Count != basket.RoomsCapacity.Count)
+            {
+                throw new RoomNotAddedToBasketException(command.BasketId);
+            }
+
+            if(basket.Name == null || basket.Surname == null || basket.Email ==null || basket.PhoneNumber == null || basket.Adress == null)
+            {
+                throw new GuestNotAddedToBasketException(command.BasketId);
+            }
+
             Guest guest = await _guestRepository.GetAsync(basket.Name, basket.Surname, basket.PhoneNumber, basket.Email, basket.Adress.Street, basket.Adress.City, basket.Adress.Country, basket.Adress.ZipCode);
                 
             
             if(guest is null)
             {
-                 guest = new Guest(command.GuestId,basket.Name, basket.Surname,_clock.GetCurrentTime(), basket.Email,basket.PhoneNumber, basket.Adress);
-                await  _guestRepository.AddAsync(guest);
+                
+               guest = new Guest(command.GuestId,basket.Name, basket.Surname,_clock.GetCurrentTime(), basket.Email,basket.PhoneNumber, basket.Adress);
+               
             }
 
             var rooms = new List<Room>();
             foreach ( var x in basket.Rooms)
             {
-               var r =  await _roomRepository.GetAsync(x);
+
+                var r = await _roomRepository.GetAsync(x);
+                var isRoomFree = await _reservationRepository.CheckIfFreeAsync(x, basket.CheckIn, basket.CheckOut);
+                if (!isRoomFree)
+                {
+                    throw new RoomIsTakenException();
+                }
                 rooms.Add(r);
+                
+                
             }
             
 
             var reservation = new Reservation(command.ReservationId, rooms, guest, basket.CheckIn, basket.CheckOut, _clock.GetCurrentTime());
+            
 
             await _reservationRepository.AddAsync(reservation);
 

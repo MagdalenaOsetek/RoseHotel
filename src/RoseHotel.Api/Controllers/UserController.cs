@@ -22,10 +22,17 @@ namespace RoseHotel.Api.Controllers
 
         [HttpGet]
         public async Task<ActionResult<UserDto>> Get( GetUser query)
-              => Ok(await _dispatcher.QueryAsync(query));
+        {
+            var user = await _dispatcher.QueryAsync(query);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User not found" });
+            }
+            return Ok(user);
+        }
 
         [HttpGet("authenticate")]
-        public async Task<ActionResult<UserDto>> Authenticate([FromQuery] GetUser query)
+        public async Task<ActionResult<UserDto>> Authenticate(AuthenticateUser query)
         {
             var user = await _dispatcher.QueryAsync(query);
             if (user == null)
@@ -36,11 +43,23 @@ namespace RoseHotel.Api.Controllers
         }
 
 
+        [HttpGet("browserReservations")]
+        public async Task<ActionResult<IReadOnlyCollection<ReservationDto>>> BrowserReservations(BrowserUserReservations query)
+        {
+            var reservations = await _dispatcher.QueryAsync(query);
+            if (reservations.Count==0)
+            {
+                return Ok(new { message = "No reservations yet found" });
+            }
+            return Ok(reservations);
+        }
+
+
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterUser command)
         {
             await _dispatcher.SendAsync(command);
-            return CreatedAtAction(nameof(Get), null);
+            return CreatedAtAction(nameof(Get),"/user",null);
         }
 
         [HttpPut("verify")]
@@ -50,14 +69,14 @@ namespace RoseHotel.Api.Controllers
             return NoContent();
         }
 
-        [HttpPut("addGuest")]
-        public async Task<ActionResult> AddGuest(AddGuestToUser command)
+        [HttpPut("upsertGuest")]
+        public async Task<ActionResult> upsertGuest(UpsertGuestToUser command)
         {
             await _dispatcher.SendAsync(command);
             return NoContent();
         }
 
 
-
+        
     }
 }

@@ -22,7 +22,7 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
             builder.Property(x => x.Status)
                 .HasConversion(x => x.Value, x => new ReservationStatus(x));
             builder.HasOne<Guest>(x => x.Guest)
-                .WithMany(x => x.Reservations).HasForeignKey(x => x.ReservationId);
+                .WithMany(x => x.Reservations).HasForeignKey(x => x.GuestId);
 
         }
     }

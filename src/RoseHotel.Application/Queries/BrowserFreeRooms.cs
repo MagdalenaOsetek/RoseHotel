@@ -8,9 +8,9 @@ using RoseHotel.Application.DTO;
 
 namespace RoseHotel.Application.Queries
 {
-    public class BrowserReservationCheckIn : IQuery<IReadOnlyList<RoomDto>>
+    public class BrowserFreeRooms : IQuery<IReadOnlyCollection<RoomDto>>
     {
-        public List<int> RoomsCapacity { get; set; }
+        public int RoomsCapacity { get; set; }
         public DateTime CheckIn { get; set; }
         public DateTime CheckOut { get;  set; }
 

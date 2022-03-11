@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RoseHotel.Application.Abstractions;
+using RoseHotel.Application.Exceptions;
 using RoseHotel.Domain.Repositories;
 
 namespace RoseHotel.Application.Commands.Handlers
@@ -20,6 +21,12 @@ namespace RoseHotel.Application.Commands.Handlers
         {
             var (basketId,name, surname,  number, email, adress, city, country, code) = command;
             var basket = await _basketRepository.GetAsync(basketId);
+
+            if(basket == null)
+            {
+                throw new BasketNotFoundException(basketId);
+            }
+
             basket.AddGuest(name, surname, number, email, adress, city, country, code);
             await _basketRepository.UpdateAsync(basket);
         }

@@ -34,7 +34,7 @@ namespace RoseHotel.Application.DTO
             {
                 UserId = user.UserId,
                 Email = user.Email,
-                Password = user.Password
+                Token = user.Token
             };
 
         public static ReservationDto AsDto(this Reservation reservation)
@@ -47,6 +47,23 @@ namespace RoseHotel.Application.DTO
                 Paid = reservation.Paid,
                 Rooms = reservation.Rooms.Select(x => x.AsDto()).ToList(),
                 Guest = reservation.Guest.AsDto()
+
+            };
+
+        public static BasketDto AsDto(this Basket basket)
+            => new BasketDto()
+            {
+                BasketId=basket.BasketId,
+                CheckIn = basket.CheckIn,
+                CheckOut= basket.CheckOut,
+                RoomsCapacity= basket.RoomsCapacity,
+                Rooms = basket.Rooms,
+                Name = basket.Name,
+                Surname = basket.Surname,
+                CreatedAt = basket.CreatedAt,
+                Email = basket.Email,
+                PhoneNumber = basket.PhoneNumber,
+                Adress = basket.Adress
 
             };
 

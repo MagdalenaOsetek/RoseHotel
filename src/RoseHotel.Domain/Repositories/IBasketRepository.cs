@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RoseHotel.Domain.Entities;
 
+
 namespace RoseHotel.Domain.Repositories
 {
     public interface IBasketRepository

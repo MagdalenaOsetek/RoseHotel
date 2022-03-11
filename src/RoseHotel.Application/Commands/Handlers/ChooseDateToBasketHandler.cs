@@ -31,7 +31,7 @@ namespace RoseHotel.Application.Commands.Handlers
                 throw new InvalidCheckInCheckOutException(checkIn, checkOut);
             }
 
-            var basket = new Basket(command.BasketId,checkIn, checkOut, roomsCapacity.Select(x => (Capacity)x).ToList());
+            var basket = new Basket(command.BasketId,checkIn, checkOut, roomsCapacity.Select(x => (Capacity)x).ToList(),_clock.GetCurrentTime());
 
             await _basketRepository.UpdateAsync(basket);
         }

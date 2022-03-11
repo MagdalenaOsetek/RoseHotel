@@ -29,6 +29,8 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
 
 
 
+
+
         }
     }
 

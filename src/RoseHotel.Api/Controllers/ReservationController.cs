@@ -20,15 +20,29 @@ namespace RoseHotel.Api.Controllers
         }
 
 
-        [HttpPost]
-        //[SwaggerOperation("Add wallet to the database")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Post(ConfirmReservation command)
+        [HttpPost("confirm")]
+        public async Task<IActionResult> Confirm(ConfirmReservation command)
         {
             await _dispatcher.SendAsync(command);
-
             return NoContent();
+
+        }
+
+
+        [HttpPut("pay")]
+        public async Task<IActionResult> Pay(PayReservation command)
+        {
+            await _dispatcher.SendAsync(command);
+            return NoContent();
+
+        }
+
+        [HttpDelete("cancel")]
+        public async Task<IActionResult> Cancel(CancelReservation command)
+        {
+            await _dispatcher.SendAsync(command);
+            return NoContent();
+
         }
     }
 }

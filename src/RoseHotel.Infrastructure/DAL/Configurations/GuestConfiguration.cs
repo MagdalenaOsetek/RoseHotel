@@ -17,13 +17,13 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
         {
 
             builder.HasIndex(x => x.GuestId).IsUnique();
-            builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.Email).HasMaxLength(100);
             builder.Property(x => x.Email)
                 .HasConversion(x => x.Value, x => new Email(x));
             builder.Property(x => x.PhoneNumber)
                 .HasConversion(x => x.Value, x => new PhoneNumber(x));
-            builder.OwnsOne(x => x.Card);
             builder.OwnsOne(x => x.Adress);
+            builder.OwnsOne(x => x.Card);
 
 
         }

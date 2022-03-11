@@ -13,20 +13,20 @@ namespace RoseHotel.Domain.ValueObjects
     {
         
 
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
-        public string ZipCode { get; set; }
+        public string Street { get; private set; }
+        public string City { get; private set; }
+        public string Country { get; private set; }
+        public string ZipCode { get; private set; }
 
         public Adress(string street, string city, string country, string zipCode)
         {
-            var culutre = CultureInfo.GetCultures(CultureTypes.AllCultures).Select(x => x.EnglishName).ToList();
+            var culutre = CultureInfo.GetCultures(CultureTypes.SpecificCultures).Select(x => (new RegionInfo(x.Name)).ToString()).ToList();
 
             if (string.IsNullOrEmpty(street) || street.Length>50)
             {
                 throw new InvalidStreetException(street);
             }
-            if (!Regex.IsMatch(city, @"^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$", RegexOptions.ECMAScript) || city.Length > 59 || string.IsNullOrEmpty(city))
+            if ( string.IsNullOrEmpty(city) || !Regex.IsMatch(city, @"^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$", RegexOptions.ECMAScript) || city.Length > 58 )
             {
                 throw new InvalidCityException(city);
             }              
@@ -34,7 +34,7 @@ namespace RoseHotel.Domain.ValueObjects
             {
                 throw new InvalidCountryException(country);
             }
-            if (!Regex.IsMatch(zipCode, @"^[0 - 9]{ 5} (?: -[0 - 9]{ 4})?$", RegexOptions.ECMAScript) || string.IsNullOrEmpty(zipCode))
+            if (string.IsNullOrEmpty(zipCode) || !Regex.IsMatch(zipCode, @"^[0-9]{2,5}(?:-[0-9]{3,4})?$", RegexOptions.ECMAScript) )
             {
                 throw new InvalidZipCodeException(zipCode);
             }
@@ -47,26 +47,26 @@ namespace RoseHotel.Domain.ValueObjects
             ZipCode = zipCode;
         }
 
-        public static bool operator ==(Adress one, Adress two)
-        {
-            if(one.City.Equals(two.City) && one.Country.Equals(two.Country) && one.Street.Equals(two.Street) && one.ZipCode.Equals(two.ZipCode))
-            {
-                return true;
-            }
+        //public static bool operator ==(Adress one, Adress two)
+        //{
+        //    if(one.City.Equals(two.City) && one.Country.Equals(two.Country) && one.Street.Equals(two.Street) && one.ZipCode.Equals(two.ZipCode))
+        //    {
+        //        return true;
+        //    }
 
-            return false;
+        //    return false;
 
-        }
+        //}
 
-        public static bool operator !=(Adress one, Adress two)
-        {
-            if (one.City.Equals(two.City) && one.Country.Equals(two.Country) && one.Street.Equals(two.Street) && one.ZipCode.Equals(two.ZipCode))
-            {
-                return false;
-            }
+        //public static bool operator !=(Adress one, Adress two)
+        //{
+        //    if (one.City.Equals(two.City) && one.Country.Equals(two.Country) && one.Street.Equals(two.Street) && one.ZipCode.Equals(two.ZipCode))
+        //    {
+        //        return false;
+        //    }
 
-            return true;
+        //    return true;
 
-        }
+        //}
     }
 }

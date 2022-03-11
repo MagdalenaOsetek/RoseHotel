@@ -13,6 +13,7 @@ namespace RoseHotel.Domain.Entities
         public Guid ReservationId { get; private set; }
         public ICollection<Room> Rooms { get; private set; }
         public Guest Guest { get; private set; }
+        public Guid GuestId { get; private set; }
         public DateTime CheckIn { get; private set; }
         public DateTime CheckOut { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -25,22 +26,19 @@ namespace RoseHotel.Domain.Entities
         {
         }
 
-        public Reservation(Guid reservationId, ICollection<Room> rooms, Guest guest, DateTime checkIn, DateTime checkOut, DateTime createdAt, Amount toPay, Amount paid, ReservationStatus status) : this(reservationId, rooms, guest, checkIn, checkOut, createdAt)
-        {
-            ToPay = toPay;
-            Paid = paid;
-            Status = status;
-        }
+
 
         public Reservation(Guid reservationId, ICollection<Room> rooms, Guest guest, DateTime checkIn, DateTime checkOut, DateTime createdAt)
         {
             ReservationId = reservationId;
             Rooms = rooms;
             Guest = guest;
+            GuestId = guest.GuestId;
             CheckIn = checkIn;
             CheckOut = checkOut;
             CreatedAt = createdAt;
-            ToPay = Decimal.Multiply(rooms.Sum(x => x.Price),(decimal)(checkOut - checkIn).TotalDays);
+            ToPay = Decimal.Multiply(rooms.Sum(x =>  x.Price),(int)(checkOut - checkIn).TotalDays);
+            Paid = 0.0m;
 
         }
 
@@ -66,10 +64,17 @@ namespace RoseHotel.Domain.Entities
 
             Paid += amount;
 
-            if(Paid == ToPay)
+            if (Paid.Value > 0)
+            {
+                Status = "VERIFIED";
+            }
+
+            if (Paid.Value == ToPay.Value)
             {
                 Status = "PAID";
             }
+
+
         }
 
 

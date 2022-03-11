@@ -7,7 +7,7 @@ using RoseHotel.Application.Abstractions;
 
 namespace RoseHotel.Application.Commands
 {
-    public record AddGuestToUser(Guid UserId, string Name, string Surname, string Number, string Adress, string City, string Country, string Code) : ICommand
+    public record UpsertGuestToUser(Guid UserId, string Name, string Surname, string Number, string Adress, string City, string Country, string Code) : ICommand
     {
         public Guid GuestId { get; } = Guid.NewGuid();
     }

@@ -11,19 +11,19 @@ using RoseHotel.Domain.ValueObjects;
 
 namespace RoseHotel.Application.Commands.Handlers
 {
-    public class AddGuestToUserHandler : ICommandHandler<AddGuestToUser>
+    public class UpsertGuestToUserHandler : ICommandHandler<UpsertGuestToUser>
     {
         private readonly IUserRepository _userRepository;
         private readonly IGuestRepository _guestRepository;
         private readonly IClock _clock;
 
-        public AddGuestToUserHandler(IUserRepository userRepository, IGuestRepository guestRepository, IClock clock)
+        public UpsertGuestToUserHandler(IUserRepository userRepository, IGuestRepository guestRepository, IClock clock)
         {
             _userRepository = userRepository;
             _guestRepository = guestRepository;
             _clock = clock;
         }
-        public async Task HandleAsync(AddGuestToUser command)
+        public async Task HandleAsync(UpsertGuestToUser command)
         {
             var (userId, name, surname,  number, adress, city, country, code) = command;
             var user = await _userRepository.GetAsync(userId);
@@ -38,16 +38,14 @@ namespace RoseHotel.Application.Commands.Handlers
                 throw new UserNotVerifiedException(user.Email);
             }
 
-            var guest = await _guestRepository.GetAsync(name, surname,  number, user.Email, adress, city, country, code);
+            var guest = await _guestRepository.GetAsync(user.GuestId);
 
-            if (guest is null)
-            {
-                guest = new Guest(command.GuestId, name, surname,  _clock.GetCurrentTime(), user.Email, number, new Adress(adress, city, country, code));
-                await _guestRepository.AddAsync(guest);
-            }
 
-            user.AddGuest(guest);
-            await _userRepository.UpdateAsync(user);
+            guest.AddInfo(name, surname, user.Email, number, adress, city, country, code, _clock.GetCurrentTime());
+
+
+            await _guestRepository.UpdateAsync(guest);
+          
         }
     }
 }

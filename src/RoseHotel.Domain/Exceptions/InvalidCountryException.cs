@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoseHotel.Domain.Exceptions
 {
-    class InvalidCountryException : RoseHotelException
+    public class InvalidCountryException : RoseHotelException
     {
         public string Country { get; set; }
         public InvalidCountryException(string value) : base($"Country name '{value}' is invalid")

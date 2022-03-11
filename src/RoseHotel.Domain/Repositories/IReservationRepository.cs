@@ -16,8 +16,9 @@ namespace RoseHotel.Domain.Repositories
         Task<IReadOnlyCollection<Reservation>> BrowserAsyncByCheckOutDate(DateTime checkOut);
         Task<IReadOnlyCollection<Reservation>> BrowserAsyncByCheckInAndCheckOutDate(DateTime checkIn, DateTime checkOut);
         Task<IReadOnlyCollection<Reservation>> BrowserAsyncByGuestName(string name, string surname);
-        Task<IReadOnlyCollection<Reservation>> BrowserAsyncByUser(Guid GuestId);
-        Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut);
+        Task<IReadOnlyCollection<Reservation>> BrowserAsyncByGuest(Guid GuestId);
+        Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut, int capacity);
+        Task<bool> CheckIfFreeAsync(Guid roomId,DateTime checkIn, DateTime checkOut);
 
         Task AddAsync(Reservation reservation);
         Task UpdateAsync(Reservation reservation);

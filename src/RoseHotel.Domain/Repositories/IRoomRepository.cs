@@ -11,7 +11,9 @@ namespace RoseHotel.Domain.Repositories
     {
 
         Task<Room> GetAsync(Guid roomId);
+        Task<bool> ExistsAsync(Guid roomId);
         Task<Room> GetAsync(int number);
+
         Task<IReadOnlyCollection<Room>> BrowserAsync(string roomType);
         Task<IReadOnlyCollection<Room>> BrowserAsync(int capacity);
 

@@ -14,7 +14,11 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
         private  RoseHotelDbContext _context;
         private  DbSet<Room> _rooms;
 
-
+        public RoomRepository(RoseHotelDbContext context)
+        {
+            _context = context;
+            _rooms = context.Rooms;
+        }
 
         public async Task AddAsync(Room room)
         {
@@ -24,13 +28,13 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
 
         public async Task<IReadOnlyCollection<Room>> BrowserAsync(string roomType)
         {
-           return  await _rooms.Where(x => x.Type.Equals(roomType)).ToListAsync();
+           return  await _rooms.Where(x => x.Type == roomType).ToListAsync();
           
         }
 
         public async Task<IReadOnlyCollection<Room>> BrowserAsync(int capacity)
         {
-            return await _rooms.Where(x => x.Capacity.Equals(capacity)).ToListAsync();
+            return await _rooms.Where(x => x.Capacity == capacity).ToListAsync();
         }
 
         public async Task DeleteAsync(Room room)
@@ -39,10 +43,13 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public  Task<Room> GetAsync(Guid roomId) =>  _rooms.SingleOrDefaultAsync(x => x.RoomId.Equals(roomId));
+        public Task<bool> ExistsAsync(Guid roomId) => _rooms.AnyAsync(x => x.RoomId == roomId);
 
 
-        public  Task<Room> GetAsync(int number) =>  _rooms.SingleOrDefaultAsync(x => x.Number.Equals(number));
+        public  Task<Room> GetAsync(Guid roomId) =>  _rooms.SingleOrDefaultAsync(x => x.RoomId == roomId);
+
+
+        public  Task<Room> GetAsync(int number) =>  _rooms.SingleOrDefaultAsync(x => x.Number == number);
 
 
         public async Task UpdateAsync(Room room)

@@ -59,17 +59,55 @@ namespace RoseHotel.Api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+
+
+
+        
+
 
             app.UseRouting();
 
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+
+
+            app.UseHttpsRedirection();
+            app.UseSwagger();
+
+            app.UseSwagger();
+            // app.UseSwaggerUI();
+            //app.UseReDoc(reDoc =>
+            //{
+            //    reDoc.RoutePrefix = "docs";
+            //    reDoc.SpecUrl($"/swagger/RoseHotel/swagger.json");
+            //});
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/RoseHotel/swagger.json", "RoseHotel");
+                //options.SwaggerEndpoint("/swagger/ParkyOpenAPISpecTrails/swagger.json", "Parky API Trails");
+                options.RoutePrefix = "";
+            });
+
+            app.UseStaticFiles();
+
+
+            app.UseCors(x => x
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+            app.UseAuthentication();
             app.UseAuthorization();
 
-           // app.UseLogging();
+            // app.UseLogging();
             //app.UseErrorHandling();
-          //  app.UseSwagger();
-          //  app.UseSwaggerUI();
+            //  app.UseSwagger();
+            //  app.UseSwaggerUI();
             //app.UseReDoc(reDoc =>
             //{
             //    reDoc.RoutePrefix = "docs";

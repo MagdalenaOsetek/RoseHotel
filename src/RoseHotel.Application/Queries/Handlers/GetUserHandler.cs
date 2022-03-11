@@ -22,7 +22,7 @@ namespace RoseHotel.Application.Queries.Handlers
         {
            var user = await _userRepository.GetAsync(query.Email, query.Password);
 
-           return user.AsDto();
+           return  user is null ? null : user.AsDto();
         }
     }
 }

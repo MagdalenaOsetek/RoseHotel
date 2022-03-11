@@ -10,15 +10,14 @@ namespace RoseHotel.Domain.ValueObjects
 {
     public class Card
     {
-        public string CardNumber { get; }
-        public DateTime ExpirationDate { get; }
-        public string Cvv { get; }
-        public string FullName { get; }
+      
 
-        public Card()
-        {
+        public string CardNumber { get; private set; }
+        public DateTime ExpirationDate { get; private set; }
+        public string Cvv { get; private set; }
+        public string FullName { get; private set; }
 
-        }
+
 
         public Card(string cardNumber, DateTime expirationDate, string cvv, string fullName)
         {
@@ -26,16 +25,16 @@ namespace RoseHotel.Domain.ValueObjects
             {
                 throw new InvaildCardNumberException(cardNumber);
             }
-            if(DateTime.UtcNow > expirationDate)
+            if (DateTime.UtcNow > expirationDate)
             {
                 throw new CardExpiredException();
             }
-            if(!Regex.IsMatch(cvv, @"^[0-9]{3,4}$", RegexOptions.ECMAScript) || string.IsNullOrEmpty(cvv))
+            if (!Regex.IsMatch(cvv, @"^[0-9]{3,4}$", RegexOptions.ECMAScript) || string.IsNullOrEmpty(cvv))
             {
-                
-                    throw new InvaildCvvException(cvv);
+
+                throw new InvaildCvvException(cvv);
             }
-            if ( string.IsNullOrEmpty(fullName) || fullName.Length>100)
+            if (string.IsNullOrEmpty(fullName) || fullName.Length > 100)
             {
                 throw new InvaildOwnerNameException();
             }
