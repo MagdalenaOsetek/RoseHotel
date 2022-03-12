@@ -27,10 +27,6 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
                 .WithOne(b => b.User)
                 .HasForeignKey<User>(u => u.GuestId);
 
-
-
-
-
         }
     }
 

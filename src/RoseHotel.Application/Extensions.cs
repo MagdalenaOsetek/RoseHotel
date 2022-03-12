@@ -17,7 +17,9 @@ namespace RoseHotel.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-          //  services.AddScoped<IUsersService, UsersService>();
+
+
+            services.AddScoped<ICommandHandler<AddRoomType>, AddRoomTypeHandler>();
 
             services.AddScoped<ICommandHandler<AddRoom>, AddRoomHandler>();
 
@@ -33,17 +35,13 @@ namespace RoseHotel.Application
             services.AddScoped<ICommandHandler<VerifyUser>, VerifyUserHandler>();
             services.AddScoped<ICommandHandler<UpsertGuestToUser>, UpsertGuestToUserHandler>();
 
-            // services.AddScoped<ICommandHandler<ChooseDateToBasket>, ChooseDateToBasketHandler>();
-            // services.AddScoped<ICommandHandler<AddWallet>, AddWalletHandler>();
-            //   services.AddScoped<ICommandHandler<DeleteWallet>, DeleteWalletHandler>();
-            // services.AddScoped<ICommandHandler<TransferFunds>, TransferFundsHandler>();
 
-            //services.AddScoped<ICommandHandler<GetUser>, GetUserHandler>();
             services.AddScoped<IQueryHandler<GetUser, UserDto>, GetUserHandler>();
             services.AddScoped<IQueryHandler<GetBasket, BasketDto>, GetBasketHandler>();
             services.AddScoped<IQueryHandler<BrowserUserReservations, IReadOnlyCollection<ReservationDto>>, BrowserUserReservationsHandler>();
-            services.AddScoped<IQueryHandler<BrowserFreeRooms, IReadOnlyCollection<RoomDto>>, BrowserFreeRoomsHandler>();
-            //  services.AddScoped<IQueryHandler<GetWallet, WalletDetailsDto>, GetWalletHandler>();
+            services.AddScoped<IQueryHandler<BrowserFreeRooms, IReadOnlyCollection<RoomTypeDto>>, BrowserFreeRoomsHandler>();
+            services.AddScoped<IQueryHandler<BrowserRoomType, IReadOnlyCollection<RoomTypeDto>>, BrowserRoomTypeHandler>();
+       
 
             return services;
         }

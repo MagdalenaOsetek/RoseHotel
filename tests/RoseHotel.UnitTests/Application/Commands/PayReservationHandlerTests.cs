@@ -16,6 +16,7 @@ using Xunit;
 
 namespace RoseHotel.UnitTests.Application.Commands
 {
+
     public class PayReservationHandlerTests
     {
         [Fact]
@@ -49,7 +50,7 @@ namespace RoseHotel.UnitTests.Application.Commands
         [Fact]
         public async Task HandleAsync_Calls_Repository_On_Success()
         {
-            var command = new PayReservation(reservationId, 559.0m, "5191914942157165", DateTime.Today.AddMonths(3), "123", "Magdalena Osetek");
+            var command = new PayReservation(reservationId, 459.99m, "5191914942157165", DateTime.Today.AddMonths(3), "123", "Magdalena Osetek");
             _reservationRepository.GetAsync(command.ReservationId).Returns(GetValidReservation());
             _guestRepository.GetAsync(guestId).Returns(GetValidGuest());
 
@@ -58,9 +59,9 @@ namespace RoseHotel.UnitTests.Application.Commands
 
             exception.ShouldBeNull();
 
-            await _reservationRepository.Received(1).UpdateAsync(Arg.Is<Reservation>(x => x.Status=="PAID"));
+            await _reservationRepository.Received(1).UpdateAsync(Arg.Is<Reservation>(x => x.Status == "PAID"));
             await _guestRepository.Received(1)
-                .UpdateAsync(Arg.Is<Guest>(x => x.Card.CardNumber== "5191914942157165" && x.Card.ExpirationDate == DateTime.Today.AddMonths(3) && x.Card.Cvv == "123" && x.Card.FullName == "Magdalena Osetek"));
+                .UpdateAsync(Arg.Is<Guest>(x => x.Card.CardNumber == "5191914942157165" && x.Card.ExpirationDate == DateTime.Today.AddMonths(3) && x.Card.Cvv == "123" && x.Card.FullName == "Magdalena Osetek"));
 
         }
 
@@ -79,7 +80,9 @@ namespace RoseHotel.UnitTests.Application.Commands
         public static Guid reservationId = Guid.NewGuid();
         public static Guid guestId = Guid.NewGuid();
 
-        public static List<Room> GetValidRoom() => new List<Room>() { new Room(Guid.NewGuid(), 1, "LUX", 559.0m, 2) };
+        public static RoomType GetValidRoomType() => new RoomType(Guid.NewGuid(), "LUX", 459.99m, 3);
+
+        public static List<Room> GetValidRoom() => new List<Room>() { new Room(Guid.NewGuid(), 1, GetValidRoomType()) };
 
 
         public static Guest GetValidGuest()

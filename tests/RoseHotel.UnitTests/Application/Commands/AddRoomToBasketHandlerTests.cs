@@ -19,27 +19,11 @@ namespace RoseHotel.UnitTests.Application.Commands
     public class AddRoomToBasketHandlerTests
     {
 
-
-
-        [Fact]
-        public async Task HandleAsync_Throws_RoomNotFoundException_When_Room_With_Given_Id_IsNot_Found()
-        {
-            var command = new AddRoomToBasket(basketId, roomId);
-            _roomRepository.ExistsAsync(command.RoomId).Returns(false);
-
-            var exception = await Record.ExceptionAsync(() => _handler.HandleAsync(command));
-
-            exception.ShouldNotBeNull();
-            exception.ShouldBeOfType<RoomNotFoundException>();
-
-        }
-
         [Fact]
         public async Task HandleAsync_Throws_BasketNotFoundException_When_Basket_With_Given_Id_IsNot_Found()
         {
-            var command = new AddRoomToBasket(basketId,roomId);
+            var command = new AddRoomToBasket(basketId, roomId);
             var room = GetValidRoom();
-            _roomRepository.ExistsAsync(command.RoomId).Returns(true);
             _basketRepository.GetAsync(command.BasketId).Returns(default(Basket));
 
             var exception = await Record.ExceptionAsync(() => _handler.HandleAsync(command));
@@ -50,12 +34,12 @@ namespace RoseHotel.UnitTests.Application.Commands
         }
 
 
+
         [Fact]
         public async Task HandleAsync_Throws_AllRoomsAlreadyAddedToBasketException_When_Basket_Has_As_Many_Rooms_As_Count_Of_RoomsCapacity()
         {
             var command = new AddRoomToBasket(basketId, roomId);
             var room = GetValidRoom();
-            _roomRepository.ExistsAsync(command.RoomId).Returns(true);
             _basketRepository.GetAsync(command.BasketId).Returns(GetBasketWithAllRooms());
 
             var exception = await Record.ExceptionAsync(() => _handler.HandleAsync(command));
@@ -68,20 +52,35 @@ namespace RoseHotel.UnitTests.Application.Commands
 
 
         [Fact]
+        public async Task HandleAsync_Throws_RoomNotFoundException_When_Room_With_Given_Id_IsNot_Found()
+        {
+            var command = new AddRoomToBasket(basketId, roomTypeId);
+            _basketRepository.GetAsync(command.BasketId).Returns(GetValidBasket());
+            _roomTypeRepository.GetAsync(command.RoomType).Returns(default(RoomType));
+
+            var exception = await Record.ExceptionAsync(() => _handler.HandleAsync(command));
+
+            exception.ShouldNotBeNull();
+            exception.ShouldBeOfType<RoomTypeNotFoundException>();
+
+        }
+
+
+
+        [Fact]
         public async Task HandleAsync_Calls_Repository_On_Success()
         {
             var command = new AddRoomToBasket(basketId, roomId);
             var room = GetValidRoom();
-            _roomRepository.ExistsAsync(command.RoomId).Returns(true);
-            var basket = GetValidBasket();
-            _basketRepository.GetAsync(command.BasketId).Returns(basket);
+            _basketRepository.GetAsync(command.BasketId).Returns(GetValidBasket());
+            _roomTypeRepository.GetAsync(command.RoomType).Returns(GetValidRoomType());
 
 
             var exception = await Record.ExceptionAsync(() => _handler.HandleAsync(command));
 
             exception.ShouldBeNull();
 
-            await _basketRepository.Received(1).UpdateAsync(Arg.Is<Basket>(x => x.Rooms.Contains(command.RoomId)));
+            await _basketRepository.Received(1).UpdateAsync(Arg.Is<Basket>(x => x.RoomsTypes.Contains(command.RoomType)));
 
         }
 
@@ -89,20 +88,24 @@ namespace RoseHotel.UnitTests.Application.Commands
 
         private readonly ICommandHandler<AddRoomToBasket> _handler;
         private readonly IBasketRepository _basketRepository;
-        private readonly IRoomRepository _roomRepository;
-        private readonly IReservationRepository _reservationRepository;
+        private readonly IRoomTypeRepository _roomTypeRepository;
+
 
         public AddRoomToBasketHandlerTests()
         {
             _basketRepository = Substitute.For<IBasketRepository>();
-            _roomRepository = Substitute.For<IRoomRepository>();
-            _reservationRepository = Substitute.For<IReservationRepository>();
-            _handler = new AddRoomToBasketHandler(_basketRepository, _roomRepository, _reservationRepository);
+            _roomTypeRepository = Substitute.For<IRoomTypeRepository>();
+            _handler = new AddRoomToBasketHandler(_basketRepository, _roomTypeRepository);
         }
 
         public static Guid roomId = Guid.NewGuid();
+        public static Guid roomTypeId = Guid.NewGuid();
         public static Guid basketId = Guid.NewGuid();
-        public static Room GetValidRoom() => new Room(roomId, 1, "LUX", 559.0m, 2);
+
+
+        public static RoomType GetValidRoomType() => new RoomType(roomTypeId, "LUX", 459.99m, 3);
+
+        public static List<Room> GetValidRoom() => new List<Room>() { new Room(roomId, 1, GetValidRoomType()) };
 
         public static Basket GetValidBasket() => new Basket(basketId, DateTime.Now.AddDays(3), DateTime.Now.AddDays(5), new List<Capacity> { 2 }, DateTime.Now);
 

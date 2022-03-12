@@ -13,7 +13,7 @@ namespace RoseHotel.Application.DTO
         public DateTime CheckIn { get;  set; }
         public DateTime CheckOut { get;  set; }
         public List<Capacity> RoomsCapacity { get;  set; }
-        public List<Guid> Rooms { get;  set; }
+        public List<Guid> RoomsTypes { get;  set; }
         public Guid UserId { get; set; }
         public string Name { get; set; }
         public string Surname { get;  set; }

@@ -7,11 +7,12 @@ using RoseHotel.Domain.Exceptions;
 
 namespace RoseHotel.Application.Exceptions
 {
-    public class RoomIsTakenException : RoseHotelException
+    public class RoomTypeNotFoundException : RoseHotelException
     {
-        
-        public RoomIsTakenException() : base($"All rooms of this type are taken")
+        public Guid  Id{ get; set; }
+        public RoomTypeNotFoundException(Guid value) : base($"Room type with id {value} not found")
         {
+            Id = value;
         }
     }
 }

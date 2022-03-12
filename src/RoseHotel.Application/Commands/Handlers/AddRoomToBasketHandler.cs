@@ -12,18 +12,18 @@ namespace RoseHotel.Application.Commands.Handlers
     public class AddRoomToBasketHandler : ICommandHandler<AddRoomToBasket>
     {
         private readonly IBasketRepository _basketRepository;
-        private readonly IRoomRepository _roomRepository;
-        private readonly IReservationRepository _reservationRepository;
+        private readonly IRoomTypeRepository _roomTypeRepository;
 
-        public AddRoomToBasketHandler (IBasketRepository basketRepository,IRoomRepository roomRepository, IReservationRepository reservationRepository)
+
+        public AddRoomToBasketHandler (IBasketRepository basketRepository,IRoomTypeRepository roomTypeRepository)
         {
             _basketRepository = basketRepository;
-            _roomRepository = roomRepository;
-            _reservationRepository = reservationRepository;
+            _roomTypeRepository = roomTypeRepository;
+          
         }
         public async Task HandleAsync(AddRoomToBasket command)
         {
-            var (basketId, capacity, roomType) = command;
+            var (basketId, roomType) = command;
 
             var basket = await _basketRepository.GetAsync(basketId);
             if (basket is null)
@@ -31,14 +31,21 @@ namespace RoseHotel.Application.Commands.Handlers
                 throw new BasketNotFoundException(basketId);
             }
 
-            if (basket.RoomsCapacity.Count == basket.Rooms.Count)
+            if (basket.RoomsCapacity.Count == basket.RoomsTypes.Count)
             {
                 throw new AllRoomsAlreadyAddedToBasketException(basketId);
             }
 
+            var room = await _roomTypeRepository.GetAsync(roomType);
+
+            if (room == null)
+            {
+                throw new RoomTypeNotFoundException(roomType);
+            }
+
         
 
-            basket.AddRoom(capacity, roomType);
+            basket.AddRoom(roomType);
             await _basketRepository.UpdateAsync(basket);
         }
     }

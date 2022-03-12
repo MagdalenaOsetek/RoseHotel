@@ -14,11 +14,23 @@ namespace RoseHotel.Application.DTO
             => new RoomDto()
             {
                 RoomId = room.RoomId,
-                Type = room.Type,
-                Capacity = room.Capacity,
-                Price = room.Price
+                Number = room.Number
 
             };
+
+
+        public static RoomTypeDto AsDto(this RoomType roomtype)
+            => new RoomTypeDto()
+            {
+                RoomTypeId = roomtype.RoomTypeId,
+                Type = roomtype.Type,
+                Capacity = roomtype.Capacity,
+                Price = roomtype.Price
+
+            };
+
+        
+
 
         public static GuestDto AsDto(this Guest guest)
             => new GuestDto()
@@ -57,7 +69,7 @@ namespace RoseHotel.Application.DTO
                 CheckIn = basket.CheckIn,
                 CheckOut= basket.CheckOut,
                 RoomsCapacity= basket.RoomsCapacity,
-                Rooms = basket.Rooms,
+                RoomsTypes = basket.RoomsTypes,
                 Name = basket.Name,
                 Surname = basket.Surname,
                 CreatedAt = basket.CreatedAt,

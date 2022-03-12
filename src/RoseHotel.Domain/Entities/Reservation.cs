@@ -37,7 +37,7 @@ namespace RoseHotel.Domain.Entities
             CheckIn = checkIn;
             CheckOut = checkOut;
             CreatedAt = createdAt;
-            ToPay = Decimal.Multiply(rooms.Sum(x =>  x.Price),(int)(checkOut - checkIn).TotalDays);
+            ToPay = Decimal.Multiply(rooms.Sum(x =>  x.RoomType.Price),(int)(checkOut - checkIn).TotalDays);
             Paid = 0.0m;
 
         }

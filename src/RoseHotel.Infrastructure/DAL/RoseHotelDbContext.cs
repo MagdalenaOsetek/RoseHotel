@@ -20,6 +20,7 @@ namespace RoseHotel.Infrastructure.DAL
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<RoomType> RoomsTypes { get; set; }
 
 
 

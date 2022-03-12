@@ -59,9 +59,9 @@ namespace RoseHotel.UnitTests.Application.Commands
             var exception = await Record.ExceptionAsync(() => _handler.HandleAsync(command));
 
             exception.ShouldBeNull();
-
-            await _guestRepository.Received(1).UpdateAsync(Arg.Is<Guest>(x => x.GuestId == guestId &&
+  await _guestRepository.Received(1).UpdateAsync(Arg.Is<Guest>(x => x.GuestId == guestId &&
             x.Name == name && x.Surname == surname && x.PhoneNumber == number && x.Adress.Street == adress && x.Adress.City == city && x.Adress.Country == country && x.Adress.ZipCode == code));
+          
 
 
         }

@@ -54,12 +54,14 @@ namespace RoseHotel.UnitTests.Application.Commands
         public CancelReservationHandlerTests()
         {
             _reservationRepository = Substitute.For<IReservationRepository>();
-            _handler = new CancelReservationHandler( _reservationRepository);
+            _handler = new CancelReservationHandler(_reservationRepository);
         }
 
         public static Guid reservationId = Guid.NewGuid();
 
-        public static List<Room> GetValidRoom() => new List<Room>() { new Room(Guid.NewGuid(), 1, "LUX", 559.0m, 2) };
+        public static RoomType GetValidRoomType() => new RoomType(Guid.NewGuid(),"LUX", 459.99m,3);
+
+        public static List<Room> GetValidRoom() => new List<Room>() { new Room(Guid.NewGuid(), 1, GetValidRoomType()) };
 
 
         public static Guest GetValidGuest()

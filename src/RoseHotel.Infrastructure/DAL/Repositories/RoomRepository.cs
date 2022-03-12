@@ -9,6 +9,7 @@ using RoseHotel.Domain.Repositories;
 
 namespace RoseHotel.Infrastructure.DAL.Repositories
 {
+
     internal sealed class RoomRepository : IRoomRepository
     {
         private  RoseHotelDbContext _context;
@@ -26,15 +27,14 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IReadOnlyCollection<Room>> BrowserAsync(string roomType)
+        public Task<IReadOnlyCollection<Room>> BrowserAsync(string roomType)
         {
-           return  await _rooms.Where(x => x.Type == roomType).ToListAsync();
-          
+            throw new NotImplementedException();
         }
 
-        public async Task<IReadOnlyCollection<Room>> BrowserAsync(int capacity)
+        public Task<IReadOnlyCollection<Room>> BrowserAsync(int capacity)
         {
-            return await _rooms.Where(x => x.Capacity == capacity).ToListAsync();
+            throw new NotImplementedException();
         }
 
         public async Task DeleteAsync(Room room)

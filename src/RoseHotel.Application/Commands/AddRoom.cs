@@ -7,7 +7,7 @@ using RoseHotel.Application.Abstractions;
 
 namespace RoseHotel.Application.Commands
 {
-    public record AddRoom(int Number, string Type, decimal Price, int Capacity) : ICommand
+    public record AddRoom(int Number, Guid RoomType) : ICommand
     {
         public Guid RoomId { get;  } = Guid.NewGuid();
     }

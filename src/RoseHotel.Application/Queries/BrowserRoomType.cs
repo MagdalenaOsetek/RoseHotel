@@ -5,14 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using RoseHotel.Application.Abstractions;
 using RoseHotel.Application.DTO;
+using RoseHotel.Domain.Entities;
 
 namespace RoseHotel.Application.Queries
 {
-    public class BrowserFreeRooms : IQuery<IReadOnlyCollection<RoomTypeDto>>
+    public class BrowserRoomType : IQuery<IReadOnlyCollection<RoomTypeDto>>
     {
-        public int RoomCapacity { get; set; }
-        public DateTime CheckIn { get; set; }
-        public DateTime CheckOut { get;  set; }
-
     }
 }

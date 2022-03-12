@@ -12,17 +12,21 @@ namespace RoseHotel.Application.Commands.Handlers
     public class AddRoomHandler : ICommandHandler<AddRoom>
     {
         private readonly IRoomRepository _roomRepository;
+        private readonly IRoomTypeRepository _roomTypeRepository;
 
-        public AddRoomHandler(IRoomRepository roomRepository)
+        public AddRoomHandler(IRoomRepository roomRepository,IRoomTypeRepository roomTypeRepository)
         {
             _roomRepository = roomRepository;
+            _roomTypeRepository = roomTypeRepository;
         }
 
         public async Task HandleAsync(AddRoom command)
         {
-            var (number, type, price, capacity) = command;
+            var (number, type) = command;
 
-            var room = new Room(command.RoomId, number, type, price, capacity);
+           var roomtype = await _roomTypeRepository.GetAsync(type);
+
+            var room = new Room(command.RoomId, number,roomtype);
             await _roomRepository.AddAsync(room);
 
         }

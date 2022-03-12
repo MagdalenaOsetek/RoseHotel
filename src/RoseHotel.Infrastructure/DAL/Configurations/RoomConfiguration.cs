@@ -16,12 +16,6 @@ namespace RoseHotel.Infrastructure.DAL.Configurations
         {
             builder.HasIndex(x => x.RoomId).IsUnique();
             builder.HasIndex(x => x.Number).IsUnique();
-            builder.Property(x => x.Price)
-                .HasConversion(x => x.Value, x => new Price(x));
-            builder.Property(x => x.Capacity)
-                .HasConversion(x => x.Value, x => new Capacity(x));
-            builder.Property(x => x.Type)
-                .HasConversion(x => x.Value, x => new RoomType(x));
             builder
                 .HasMany(r => r.Reservations)
                 .WithMany(r => r.Rooms)

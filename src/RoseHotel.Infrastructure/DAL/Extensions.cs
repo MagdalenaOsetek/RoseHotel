@@ -31,6 +31,7 @@ namespace RoseHotel.Infrastructure.DAL
             });
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGuestRepository, GuestRepository>();

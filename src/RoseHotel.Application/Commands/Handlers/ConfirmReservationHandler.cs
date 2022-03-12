@@ -37,7 +37,7 @@ namespace RoseHotel.Application.Commands.Handlers
                 throw new BasketNotFoundException(command.BasketId);
             }
 
-            if (basket.Rooms.Count != basket.RoomsCapacity.Count)
+            if (basket.RoomsTypes.Count != basket.RoomsCapacity.Count)
             {
                 throw new RoomNotAddedToBasketException(command.BasketId);
             }
@@ -58,18 +58,17 @@ namespace RoseHotel.Application.Commands.Handlers
             }
 
             var rooms = new List<Room>();
-            foreach ( var x in basket.Rooms)
+            foreach ( var x in basket.RoomsTypes)
             {
-
-                var r = await _roomRepository.GetAsync(x);
-                var isRoomFree = await _reservationRepository.CheckIfFreeAsync(x, basket.CheckIn, basket.CheckOut);
-                if (!isRoomFree)
+              
+                var roomFree = await _reservationRepository.GetFreeRoomAsync(x, basket.CheckIn, basket.CheckOut);
+                
+                if(roomFree == null)
                 {
                     throw new RoomIsTakenException();
                 }
-                rooms.Add(r);
-                
-                
+                rooms.Add(roomFree);
+                             
             }
             
 

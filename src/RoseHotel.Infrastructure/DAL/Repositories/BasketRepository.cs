@@ -34,16 +34,19 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
                 ContractResolver = new PrivateSetterContractResolver()
             };
 
-            var lol= JsonConvert.DeserializeObject<Basket>(basket, settings);
+            return JsonConvert.DeserializeObject<Basket>(basket, settings);
 
-            return lol;
+            
             
         }
 
         public async Task UpdateAsync(Basket basket)
         {
 
-            await _redisCache.SetStringAsync(basket.BasketId.ToString(), JsonConvert.SerializeObject(basket));
+            var options = new DistributedCacheEntryOptions()
+                .SetAbsoluteExpiration(DateTime.Now.AddHours(1));
+               
+            await _redisCache.SetStringAsync(basket.BasketId.ToString(), JsonConvert.SerializeObject(basket), options   );
 
         }
 

@@ -7,7 +7,7 @@ using RoseHotel.Domain.Exceptions;
 
 namespace RoseHotel.Domain.ValueObjects
 {
-    public class RoomType
+    public class RoomTypeName
     {
         public static readonly HashSet<string> AllowedValues = new()
         {
@@ -18,7 +18,7 @@ namespace RoseHotel.Domain.ValueObjects
 
         public string Value { get; }
 
-        public RoomType(string value)
+        public RoomTypeName(string value)
         {
             if (string.IsNullOrWhiteSpace(value) || value.Length != 3)
             {
@@ -35,10 +35,10 @@ namespace RoseHotel.Domain.ValueObjects
             Value = value;
         }
 
-        public static implicit operator RoomType(string value) => value is null ? null : new RoomType(value);
+        public static implicit operator RoomTypeName(string value) => value is null ? null : new RoomTypeName(value);
 
 
-        public static implicit operator string(RoomType value) => value?.Value;
+        public static implicit operator string(RoomTypeName value) => value?.Value;
 
 
     }

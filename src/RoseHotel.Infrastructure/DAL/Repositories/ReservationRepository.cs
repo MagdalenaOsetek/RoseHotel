@@ -19,12 +19,14 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
         private readonly RoseHotelDbContext _context;
         private readonly DbSet<Reservation> _resrevations;
         private readonly DbSet<Room> _rooms;
+        private readonly DbSet<RoomType> _roomsTypes;
 
         public ReservationRepository(RoseHotelDbContext context)
         {
             _context = context;
             _resrevations = context.Reservations;
             _rooms = context.Rooms;
+            _roomsTypes = context.RoomsTypes;
         }
 
         public async Task AddAsync(Reservation reservation)
@@ -60,7 +62,7 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
            return await _resrevations.Include(x => x.Rooms).Where(x => x.GuestId == guestId).ToListAsync();
         }
 
-        public async Task<IReadOnlyCollection<Room>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut, int capacity)
+        public async Task<IReadOnlyCollection<RoomType>> BrowserAsyncFreeRooms(DateTime checkIn, DateTime checkOut, int capacity)
         {
 
 
@@ -68,9 +70,17 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
                 .Where(x => !((x.CheckIn < checkIn || x.CheckOut <= checkIn) || (x.CheckIn >= checkOut || x.CheckOut > checkOut)))
                 .Select(x => x.Rooms)
                 .SelectMany(x => x)
-                .Where(x=> x.Capacity >= capacity)
+                .Include(x => x.RoomType)
+                .Where(x=> x.RoomType.Capacity >= capacity)
                 .ToListAsync();
-            var free = await _rooms.Where(x => !taken.Contains(x)).ToListAsync();
+
+            var lol = await _rooms.ToListAsync();
+            var free = await _rooms.Where(x => !taken.Contains(x))
+                .Include(x => x.RoomType)
+                .Select(x => x.RoomType)
+                .Distinct()
+                .ToListAsync();
+         
 
             return free;
 
@@ -101,45 +111,19 @@ namespace RoseHotel.Infrastructure.DAL.Repositories
 
 
 
-
-        public async Task<bool> CheckIfFreeAsync(Guid roomId, DateTime checkIn, DateTime checkOut)
+        public async Task<Room> GetFreeRoomAsync(Guid roomTypeId, DateTime checkIn, DateTime checkOut)
         {
-
 
             var taken = await _resrevations.Include(x => x.Rooms)
                 .Where(x => !((x.CheckIn < checkIn || x.CheckOut <= checkIn) || (x.CheckIn >= checkOut || x.CheckOut > checkOut)))
                 .Select(x => x.Rooms)
                 .SelectMany(x => x)
-                .Select(x => x.RoomId)
-                .ToListAsync(); 
-            
-            if (!taken.Contains(roomId))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-
-
-        public async Task<Room> GetFreeRoomAsync(int capacity, string roomType, DateTime checkIn, DateTime checkOut)
-        {
-
-
-            var taken = await _resrevations.Include(x => x.Rooms)
-                .Where(x => !((x.CheckIn < checkIn || x.CheckOut <= checkIn) || (x.CheckIn >= checkOut || x.CheckOut > checkOut)))
-                .Select(x => x.Rooms)
-                .SelectMany(x => x)
-                .Select(x => x.RoomId)
                 .ToListAsync();
 
-            if (!taken.Contains(roomId))
-            {
-                return true;
-            }
+            var free = await _rooms.Where(x => !taken.Contains(x) && x.RoomTypeId == roomTypeId).Include(x => x.RoomType)
+                .FirstAsync();
 
-            return false;
+            return free;
         }
 
 
